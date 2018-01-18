@@ -11,12 +11,32 @@ public abstract class Behaviour {
 		this.intensity = type;
 	}
 	
-	protected void upIntesity(BehaviorMultiplierEnum intesity) {
+	protected void changeIntensity(BehaviorMultiplierEnum intesity) {
 		this.intensity = intesity;
 	}
 	
-	protected void downIntesity(BehaviorMultiplierEnum intesity) {
-		this.intensity = intesity;
+	protected void raizeIntensity() {
+		switch (this.intensity) {
+		case SHY:
+			this.intensity = BehaviorMultiplierEnum.MODERATE;
+			break;
+		case MODERATE:
+			this.intensity = BehaviorMultiplierEnum.AGRESSIVE;
+		default:
+			break;
+		}
+	}
+	
+	protected void lowerIntensity() {
+		switch (this.intensity) {
+		case AGRESSIVE:
+			this.intensity = BehaviorMultiplierEnum.MODERATE;
+			break;
+		case MODERATE:
+			this.intensity = BehaviorMultiplierEnum.SHY;
+		default:
+			break;
+		}
 	}
 	
 	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {

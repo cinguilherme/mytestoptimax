@@ -14,8 +14,8 @@ public class Safe extends Behaviour {
 	}
 
 	/**
-	 * This behavior class starts with zero because it focus on 
-	 * trying to outbid de opponent after the first bid.
+	 * This behavior class starts with zero because it focus on trying to outbid de
+	 * opponent after the first bid.
 	 */
 	@Override
 	public int opener(BaseBidder bidder) {
@@ -43,12 +43,13 @@ public class Safe extends Behaviour {
 	}
 
 	/**
-	 * This behavior tries to bid 20% over the last bid of the opponent if winning, if lossing try 35% more.
+	 * This behavior tries to bid 20% over the last bid of the opponent if winning,
+	 * if lossing try 35% more.
 	 */
 	@Override
 	public int seek(BaseBidder bidder) {
 		float multiplier = 1.2F;
-		if(bidder.opponnentQuantity > bidder.quantity) {
+		if (bidder.opponnentQuantity > bidder.quantity) {
 			multiplier = 1.35F;
 		}
 		return (int) Math.round(bidder.opponentLastBid * multiplier);
@@ -56,20 +57,65 @@ public class Safe extends Behaviour {
 
 	@Override
 	public void reEvaluateStrategy(BaseBidder bidder) {
-		
+
 		int winning = bidder.diferenceInQuantity();
 		int difSpen = bidder.diferenceInSpense();
-		DiferenceRelativeToAmount difQ = bidder.difInQuantity();
-		DiferenceRelativeToAmount difC = bidder.difInCash();
-		
-		if(winning <= 0 && difSpen >= 0) {
-			//how good is it? or is it good really? keep the same
+		DiferenceRelativeToAmount diferenceQuantity = bidder.difInQuantity();
+		DiferenceRelativeToAmount diferenceCash = bidder.difInCash();
+
+		if (winning <= 0) {
+			evaluateWinning(difSpen, diferenceQuantity, diferenceCash);
 		} else {
-			//
-			//how bad is it? or is it bad really?
+			evaluateLosing(difSpen, diferenceQuantity);
+		}
+	}
+
+	private void evaluateWinning(int difSpen, DiferenceRelativeToAmount diferenceQuantity,
+			DiferenceRelativeToAmount diferenceCash) {
+		
+		// how good is it? or is it good really? keep the same
+		// winning and spending less. make no change please
+		// winning but spending more. reevaluate
+		if (difSpen < 0) { 
+			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
+		}
+	}
+
+	private void evaluateLosing(int difSpen, DiferenceRelativeToAmount diferenceQuantity) {
+		if (difSpen > 0) {
+			changeIntensityLosingAndSpendingLess(diferenceQuantity);
+		} else if (difSpen < 0) { // i'm loosing and spending more. This is bad
+			// go for a bait*
+		} else {
+			// if i'm loosing and spending the same amount, raize intensity.
+			raizeIntensity();
+		}
+	}
+
+	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmount diferenceQuantity,
+			DiferenceRelativeToAmount diferenceCash) {
+		
+		if(diferenceQuantity.equals(DiferenceRelativeToAmount.SMALL)
+				&& diferenceCash.equals(DiferenceRelativeToAmount.LARGE)) {
+			lowerIntensity();
 		}
 		
 	}
 
+	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmount diferenceQuantity) {
+		switch (diferenceQuantity) {
+		case SMALL:
+			raizeIntensity();
+			break;
+		case MODERATE:
+			raizeIntensity();
+			break;
+		case LARGE:
+			raizeIntensity();
+			raizeIntensity();
+		default:
+			break;
+		}
+	}
 
 }
