@@ -4,11 +4,19 @@ import optimax.bidder.BaseBidder;
 
 public abstract class Behaviour {
 
-	protected BehaviorMultiplierEnum style;
+	protected BehaviorMultiplierEnum intensity;
 	protected BehaviourStrategyEnum currentStrategy;
 	
 	public Behaviour(BehaviorMultiplierEnum type) {
-		this.style = type;
+		this.intensity = type;
+	}
+	
+	protected void upIntesity(BehaviorMultiplierEnum intesity) {
+		this.intensity = intesity;
+	}
+	
+	protected void downIntesity(BehaviorMultiplierEnum intesity) {
+		this.intensity = intesity;
 	}
 	
 	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {

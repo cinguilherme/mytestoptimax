@@ -63,8 +63,9 @@ public class Safe extends Behaviour {
 		DiferenceRelativeToAmount difC = bidder.difInCash();
 		
 		if(winning <= 0 && difSpen >= 0) {
-			//how good is it? or is it good really?
+			//how good is it? or is it good really? keep the same
 		} else {
+			//
 			//how bad is it? or is it bad really?
 		}
 		
