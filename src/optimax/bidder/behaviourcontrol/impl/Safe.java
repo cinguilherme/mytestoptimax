@@ -94,6 +94,8 @@ public class Safe extends Behaviour {
 			changeIntensityLosingAndSpendingLess(diferenceQuantity);
 		} else if (difSpen < 0) {
 			// dont know what to do here.. maybe go for zeros until the diference balances out?
+			//till the diference balances out, try to go for HOLD
+			lowerIntensity();
 		} else {
 			// if i'm loosing and spending the same amount, raize intensity.
 			raizeIntensity();
