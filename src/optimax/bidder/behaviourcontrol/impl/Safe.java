@@ -13,35 +13,46 @@ public class Safe extends Behaviour {
 	}
 
 	@Override
-	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {
+	public int opener(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int respond(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int bait(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int trade(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int scare(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int seek(BaseBidder bidder) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void reEvaluateStrategy(BaseBidder bidder) {
+		// TODO Auto-generated method stub
 		
-		
-		
-		return  * this.style.getCodeMultiplier();
 	}
 
-	@Override
-	public int opener() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int respond() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int bait() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int trade() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

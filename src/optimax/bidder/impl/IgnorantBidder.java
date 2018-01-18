@@ -2,25 +2,26 @@ package optimax.bidder.impl;
 
 import optimax.bidder.BaseBidder;
 import optimax.bidder.Bidder;
+import optimax.bidder.behaviourcontrol.impl.Safe;
 
 public class IgnorantBidder extends BaseBidder implements Bidder {
-
+	
+	public IgnorantBidder() {
+		this.setBehaviour(new Safe());
+	}
+	
 	@Override
 	public void init(int quantity, int cash) {
-		// TODO Auto-generated method stub
-
+		this.quantity = quantity;
+		this.cash = cash;
 	}
 
 	@Override
 	public int placeBid() {
 		// TODO Auto-generated method stub
-		// evaluate my condidion, evaluate how much did my opponent already spent.
-		// evaluate if i am wining or loosing
-		// if completely unsure and wining, place 0
-		// try to predict the minimal value of the oponent
 		
-		//get my current behaviour
-		//get my current style
+		//the bidder has the data, the behavior is going to decide what to do.
+		//if behavior not working, change behavior to a best match against the opponent behavior
 		
 		int bid = this.getBehaviour().getMyNextBidBasedOnBehaviorAndConditions(this);
 		this.pay(bid);

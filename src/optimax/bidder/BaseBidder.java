@@ -16,10 +16,11 @@ public abstract class BaseBidder {
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
 	
-	protected int opponnentQuantity = 0;
-	protected int opponnentCashSpent = 0;
 	protected int cash;
 
+	public int opponnentQuantity = 0;
+	public int opponnentCashSpent = 0;
+	public int opponentLastBid = 0;
 	public int numberOfBids = 0;
 	public int quantity = 0;
 	public int spentCash = 0;
@@ -42,6 +43,7 @@ public abstract class BaseBidder {
 	 * @param other
 	 */
 	public void evaluateResults(int own, int other) {
+		opponentLastBid = other;
 		if (own < other) {
 			this.getActionResults().add(ActionResult.LOSS);
 			this.opponnentQuantity += 2;
