@@ -16,6 +16,7 @@ public abstract class BaseBidder {
 
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
+	private int inicialCash = 0;
 	
 	protected int cash;
 
@@ -26,24 +27,75 @@ public abstract class BaseBidder {
 	public int quantity = 0;
 	public int spentCash = 0;
 
+	/**
+	 * 
+	 * @return the diference from the opponent spenses to my own. Negative means I spent more
+	 */
 	public int diferenceInSpense() {
-		return 0;
+		return opponnentCashSpent - spentCash;
 	}
 	
+	/**
+	 * 
+	 * @return the diference from the opponent qauntity to my own. Negative means I got more produts
+	 */
 	public int diferenceInQuantity() {
-		return 0;
+		return opponnentQuantity - quantity;
 	}
 	
+	/**
+	 * determine how big is the diference in cash spent? 
+	 * this diference should provide support to how wild or safe you can be in terms of agressive bidds.
+	 * 
+	 * rule: cash diference in relation to the remainder cash
+	 * 
+	 * EX: cash = 50; diference = -10 -> dif is 60 how bad is it? 60 is 20% higher than 50. It should be SMALL
+	 * 
+	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
+	 */
 	public DiferenceRelativeToAmount inCash() {
-		return DiferenceRelativeToAmount.SMALL;
+		int evaluation = cash - diferenceInSpense();
+		int perc = (evaluation/cash) * 100;
+		if(perc <= 20) {
+			return DiferenceRelativeToAmount.SMALL;
+		} else if(perc <= 35) {
+			return DiferenceRelativeToAmount.MODERATE;
+		} else {
+			return DiferenceRelativeToAmount.LARGE;
+		}
 	}
 	
+	/**
+	 * Determine how big is the diference in quantity gained? 
+	 * this diference should provide support to how wild or safe you can be in terms of agressive bidds.
+	 * 
+	 * rule: cash diference in relation to the total quantity so far
+	 * 
+	 * EX: quantity = 50; diference = -10 and opponent quantity = 40-> dif is 10 in relation to 90, its very small edge.
+	 * 
+	 * @return DiferenceRelativeToAmount SMALL <= 10% > MODERATE <= 20% > or LARGE
+	 * @return
+	 */
 	public DiferenceRelativeToAmount inQuantity() {
-		return DiferenceRelativeToAmount.SMALL;
+		int evaluation = Math.abs(diferenceInQuantity());
+		int perc = (evaluation/(quantity+opponnentQuantity)) * 100;
+		if(perc <= 10) {
+			return DiferenceRelativeToAmount.SMALL;
+		} else if(perc <= 20) {
+			return DiferenceRelativeToAmount.MODERATE;
+		} else {
+			return DiferenceRelativeToAmount.LARGE;
+		}
 	}
 	
 	public boolean pay(int value) {
+		
+		if (numberOfBids == 0) {
+			inicialCash = cash;
+		}
+		
 		numberOfBids++;
+		
 		if (cash >= value) {
 			cash -= value;
 			spentCash += value;
