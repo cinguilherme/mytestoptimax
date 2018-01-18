@@ -15,7 +15,9 @@ public class Safe extends Behaviour {
 	@Override
 	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {
 		
-		return 1;
+		
+		
+		return  * this.style.getCodeMultiplier();
 	}
 
 	@Override

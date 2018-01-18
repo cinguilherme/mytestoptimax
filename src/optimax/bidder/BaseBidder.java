@@ -13,17 +13,19 @@ import optimax.bidder.resultcontrol.ActionResult;
  */
 public abstract class BaseBidder {
 
-	private List<Behaviour> behaviours;
+	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
-
+	
 	protected int opponnentQuantity = 0;
 	protected int opponnentCashSpent = 0;
 	protected int cash;
 
+	public int numberOfBids = 0;
 	public int quantity = 0;
 	public int spentCash = 0;
 
-	public boolean payIfCan(int value) {
+	public boolean pay(int value) {
+		numberOfBids++;
 		if (cash >= value) {
 			cash -= value;
 			spentCash += value;
@@ -54,12 +56,12 @@ public abstract class BaseBidder {
 		this.opponnentCashSpent += other;
 	}
 
-	public List<Behaviour> getBehaviours() {
-		return behaviours;
+	public Behaviour getBehaviour() {
+		return behaviour;
 	}
 
-	public void setBehaviours(List<Behaviour> behaviours) {
-		this.behaviours = behaviours;
+	public void setBehaviour(Behaviour behaviour) {
+		this.behaviour = behaviour;
 	}
 
 	public List<ActionResult> getActionResults() {

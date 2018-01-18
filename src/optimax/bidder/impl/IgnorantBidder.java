@@ -22,8 +22,8 @@ public class IgnorantBidder extends BaseBidder implements Bidder {
 		//get my current behaviour
 		//get my current style
 		
-		int bid = 0;
-		this.payIfCan(bid);
+		int bid = this.getBehaviour().getMyNextBidBasedOnBehaviorAndConditions(this);
+		this.pay(bid);
 		return bid;
 	}
 
