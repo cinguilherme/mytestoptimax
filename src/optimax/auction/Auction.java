@@ -1,13 +1,13 @@
-package optimax.action;
+package optimax.auction;
 
 import optimax.bidder.Bidder;
 import optimax.bidder.base.BaseBidder;
 
-public class Action {
+public class Auction {
 
 	int numberOfProducts;
 
-	public Action(int listSize) {
+	public Auction(int listSize) {
 		numberOfProducts = listSize;
 	}
 

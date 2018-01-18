@@ -1,6 +1,6 @@
 package optimax.main;
 
-import optimax.action.Action;
+import optimax.auction.Auction;
 import optimax.bidder.Bidder;
 import optimax.bidder.impl.SillyBidder;
 
@@ -14,7 +14,7 @@ public class MainApp {
 		one.init(0, 100);
 		two.init(0, 120);
 		
-		Action action = new Action(100);
+		Auction action = new Auction(100);
 		
 		System.out.println(action.executeActionAndDeclareWinner(one, two));
 		

@@ -53,7 +53,9 @@ public class Safe extends Behaviour {
 	 */
 	@Override
 	public int seek(BaseBidder bidder) {
-		return (int) Math.round(bidder.opponentData.lastBid * this.intensity.getCodeMultiplier());
+		
+		return (int) Math.round(bidder.opponentData.averageWinningBid() * this.intensity.getCodeMultiplier());
+		
 	}
 
 	@Override
