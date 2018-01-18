@@ -3,6 +3,7 @@ package optimax.bidder;
 import java.util.List;
 
 import optimax.bidder.behaviourcontrol.Behaviour;
+import optimax.bidder.behaviourcontrol.DiferenceRelativeToAmount;
 import optimax.bidder.resultcontrol.ActionResult;
 
 /**
@@ -25,6 +26,22 @@ public abstract class BaseBidder {
 	public int quantity = 0;
 	public int spentCash = 0;
 
+	public int diferenceInSpense() {
+		return 0;
+	}
+	
+	public int diferenceInQuantity() {
+		return 0;
+	}
+	
+	public DiferenceRelativeToAmount inCash() {
+		return DiferenceRelativeToAmount.SMALL;
+	}
+	
+	public DiferenceRelativeToAmount inQuantity() {
+		return DiferenceRelativeToAmount.SMALL;
+	}
+	
 	public boolean pay(int value) {
 		numberOfBids++;
 		if (cash >= value) {

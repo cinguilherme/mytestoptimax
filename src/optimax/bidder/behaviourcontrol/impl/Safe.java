@@ -9,48 +9,54 @@ public class Safe extends Behaviour {
 
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
-		this.currentStrategy = BehaviourStrategyEnum.BAIT;
+		this.currentStrategy = BehaviourStrategyEnum.SEEK;
 	}
 
+	/**
+	 * This behavior class starts with zero because it focus on 
+	 * trying to outbid de opponent after the first bid.
+	 */
 	@Override
 	public int opener(BaseBidder bidder) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int respond(BaseBidder bidder) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int bait(BaseBidder bidder) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int trade(BaseBidder bidder) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int scare(BaseBidder bidder) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * This behavior tries to bid 20% over the last bid of the opponent if winning, if lossing try 35% more.
+	 */
 	@Override
 	public int seek(BaseBidder bidder) {
-		// TODO Auto-generated method stub
-		return 0;
+		float multiplier = 1.2F;
+		if(bidder.opponnentQuantity > bidder.quantity) {
+			multiplier = 1.35F;
+		}
+		return (int) Math.round(bidder.opponentLastBid * multiplier);
 	}
 
 	@Override
 	public void reEvaluateStrategy(BaseBidder bidder) {
-		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
