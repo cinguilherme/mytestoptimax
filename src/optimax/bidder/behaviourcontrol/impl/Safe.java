@@ -48,11 +48,7 @@ public class Safe extends Behaviour {
 	 */
 	@Override
 	public int seek(BaseBidder bidder) {
-		float multiplier = 1.2F;
-		if (bidder.opponnentQuantity > bidder.quantity) {
-			multiplier = 1.35F;
-		}
-		return (int) Math.round(bidder.opponentLastBid * multiplier);
+		return (int) Math.round(bidder.opponentLastBid * this.intensity.getCodeMultiplier());
 	}
 
 	@Override
@@ -72,11 +68,11 @@ public class Safe extends Behaviour {
 
 	private void evaluateWinning(int difSpen, DiferenceRelativeToAmount diferenceQuantity,
 			DiferenceRelativeToAmount diferenceCash) {
-		
+
 		// how good is it? or is it good really? keep the same
 		// winning and spending less. make no change please
 		// winning but spending more. reevaluate
-		if (difSpen < 0) { 
+		if (difSpen < 0) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
 		}
 	}
@@ -94,12 +90,12 @@ public class Safe extends Behaviour {
 
 	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmount diferenceQuantity,
 			DiferenceRelativeToAmount diferenceCash) {
-		
-		if(diferenceQuantity.equals(DiferenceRelativeToAmount.SMALL)
+
+		if (diferenceQuantity.equals(DiferenceRelativeToAmount.SMALL)
 				&& diferenceCash.equals(DiferenceRelativeToAmount.LARGE)) {
 			lowerIntensity();
 		}
-		
+
 	}
 
 	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmount diferenceQuantity) {
