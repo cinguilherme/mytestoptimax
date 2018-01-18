@@ -1,6 +1,6 @@
 package optimax.bidder.behaviourcontrol.impl;
 
-import optimax.bidder.BaseBidder;
+import optimax.bidder.base.BaseBidder;
 import optimax.bidder.behaviourcontrol.BehaviorMultiplierEnum;
 import optimax.bidder.behaviourcontrol.Behaviour;
 import optimax.bidder.behaviourcontrol.BehaviourStrategyEnum;
@@ -11,6 +11,11 @@ public class Safe extends Behaviour {
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
 		this.currentStrategy = BehaviourStrategyEnum.SEEK;
+	}
+	
+	public Safe(BehaviorMultiplierEnum mult, BehaviourStrategyEnum strategy) {
+		super(mult);
+		this.currentStrategy = strategy;
 	}
 
 	/**
@@ -48,7 +53,7 @@ public class Safe extends Behaviour {
 	 */
 	@Override
 	public int seek(BaseBidder bidder) {
-		return (int) Math.round(bidder.opponentLastBid * this.intensity.getCodeMultiplier());
+		return (int) Math.round(bidder.opponentData.lastBid * this.intensity.getCodeMultiplier());
 	}
 
 	@Override
@@ -94,8 +99,7 @@ public class Safe extends Behaviour {
 			changeIntensityLosingAndSpendingLess(diferenceQuantity);
 		} else if (difSpen < 0) {
 			// dont know what to do here.. maybe go for zeros until the diference balances out?
-			//till the diference balances out, try to go for HOLD
-			lowerIntensity();
+			changeIntensity(BehaviorMultiplierEnum.HOLD);
 		} else {
 			// if i'm loosing and spending the same amount, raize intensity.
 			raizeIntensity();

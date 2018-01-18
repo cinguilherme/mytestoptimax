@@ -1,4 +1,4 @@
-package optimax.bidder;
+package optimax.bidder.base;
 
 import java.util.List;
 
@@ -16,23 +16,21 @@ public abstract class BaseBidder {
 
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
-	private int inicialCash = 0;
-	
-	protected int cash;
 
-	public int opponnentQuantity = 0;
-	public int opponnentCashSpent = 0;
-	public int opponentLastBid = 0;
-	public int numberOfBids = 0;
-	public int quantity = 0;
-	public int spentCash = 0;
+	public OpponnetData opponentData;
+	public SelfData data;
+	
+	public BaseBidder() {
+		opponentData = new OpponnetData();
+		data = new SelfData();
+	}
 
 	/**
 	 * 
 	 * @return the diference from the opponent spenses to my own. Negative means I spent more
 	 */
 	public int diferenceInSpense() {
-		return opponnentCashSpent - spentCash;
+		return opponentData.spentCash - data.spentCash;
 	}
 	
 	/**
@@ -40,7 +38,7 @@ public abstract class BaseBidder {
 	 * @return the diference from the opponent qauntity to my own. Negative means I got more produts
 	 */
 	public int diferenceInQuantity() {
-		return opponnentQuantity - quantity;
+		return opponentData.quantity - data.quantity;
 	}
 	
 	/**
@@ -54,8 +52,8 @@ public abstract class BaseBidder {
 	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
 	 */
 	public DiferenceRelativeToAmount difInCash() {
-		int evaluation = cash - diferenceInSpense();
-		int perc = (evaluation/cash) * 100;
+		int evaluation = data.cash - diferenceInSpense();
+		int perc = (evaluation/data.cash) * 100;
 		if(perc <= 20) {
 			return DiferenceRelativeToAmount.SMALL;
 		} else if(perc <= 35) {
@@ -78,7 +76,7 @@ public abstract class BaseBidder {
 	 */
 	public DiferenceRelativeToAmount difInQuantity() {
 		int evaluation = Math.abs(diferenceInQuantity());
-		int perc = (evaluation/(quantity+opponnentQuantity)) * 100;
+		int perc = (evaluation/(data.quantity + opponentData.quantity)) * 100;
 		if(perc <= 10) {
 			return DiferenceRelativeToAmount.SMALL;
 		} else if(perc <= 20) {
@@ -88,21 +86,25 @@ public abstract class BaseBidder {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
 	public boolean pay(int value) {
 		
-		if (numberOfBids == 0) {
-			inicialCash = cash;
+		if (data.numberOfBids == 0) {
+			data.inicialCash = data.cash;
+		}
+		data.numberOfBids++;
+		
+		if(data.canPay(value)) {
+			data.cash -= value;
+			data.spentCash += value;
+			return true;
 		}
 		
-		numberOfBids++;
-		
-		if (cash >= value) {
-			cash -= value;
-			spentCash += value;
-		} else {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -111,20 +113,24 @@ public abstract class BaseBidder {
 	 * @param own
 	 * @param other
 	 */
-	public void evaluateResults(int own, int other) {
-		opponentLastBid = other;
+	public void evaluateResultsAndRegistre(int own, int other) {
+		opponentData.lastBid = other;
 		if (own < other) {
-			this.getActionResults().add(ActionResult.LOSS);
-			this.opponnentQuantity += 2;
+			getActionResults().add(ActionResult.LOSS);
+			opponentData.quantity += 2;
+			opponentData.winingBids.add(other);
 		} else if (own == other) {
-			this.getActionResults().add(ActionResult.TIED);
-			this.quantity += 1;
-			this.opponnentQuantity += 1;
+			getActionResults().add(ActionResult.TIED);
+			data.quantity += 1;
+			opponentData.quantity += 1;
 		} else {
-			this.getActionResults().add(ActionResult.WIN);
-			this.quantity += 2;
+			getActionResults().add(ActionResult.WIN);
+			data.quantity += 2;
+			data.winingBids.add(own);
 		}
-		this.opponnentCashSpent += other;
+		opponentData.allBids.add(other);
+		data.allBids.add(own);
+		this.opponentData.spentCash += other;
 	}
 
 	public Behaviour getBehaviour() {

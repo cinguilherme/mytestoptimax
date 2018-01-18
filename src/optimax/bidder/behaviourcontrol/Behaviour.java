@@ -1,6 +1,6 @@
 package optimax.bidder.behaviourcontrol;
 
-import optimax.bidder.BaseBidder;
+import optimax.bidder.base.BaseBidder;
 
 public abstract class Behaviour {
 
@@ -48,7 +48,7 @@ public abstract class Behaviour {
 	}
 
 	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {
-		if (bidder.numberOfBids == 0) {
+		if (bidder.data.numberOfBids == 0) {
 			return opener(bidder);
 		} else {
 			int nextBid = 0;

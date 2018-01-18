@@ -1,7 +1,7 @@
 package optimax.action;
 
-import optimax.bidder.BaseBidder;
 import optimax.bidder.Bidder;
+import optimax.bidder.base.BaseBidder;
 
 public class Action {
 
@@ -27,9 +27,9 @@ public class Action {
 			getNextSell(one, two);
 		}
 		
-		if(((BaseBidder)one).quantity > ((BaseBidder)two).quantity) {
+		if(((BaseBidder)one).data.quantity > ((BaseBidder)two).data.quantity) {
 			return "One";
-		} else if(((BaseBidder)one).quantity < ((BaseBidder)two).quantity) {
+		} else if(((BaseBidder)one).data.quantity < ((BaseBidder)two).data.quantity) {
 			return "Two";
 		} else {
 			return "Tied";
