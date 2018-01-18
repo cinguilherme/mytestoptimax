@@ -1,7 +1,7 @@
 package optimax.bidder.behaviourcontrol;
 
 public enum BehaviorMultiplierEnum {
-	SHY(1,"Shy"), MODERATE(2,"Moderate"), AGRESSIVE(3,"Agressive");
+	HOLD(0, "Hold"), SHY(1,"Shy"), MODERATE(2,"Moderate"), AGRESSIVE(3,"Agressive");
 
 	int codeMultiplier;
 	String description;

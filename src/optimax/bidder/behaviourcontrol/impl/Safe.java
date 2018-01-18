@@ -66,32 +66,49 @@ public class Safe extends Behaviour {
 		}
 	}
 
+	/**
+	 * how good is it? or is it good really? keep the same winning and spending
+	 * less. make no change please. winning but spending more? reevaluate
+	 * 
+	 * @param difSpen
+	 * @param diferenceQuantity
+	 * @param diferenceCash
+	 */
 	private void evaluateWinning(int difSpen, DiferenceRelativeToAmount diferenceQuantity,
 			DiferenceRelativeToAmount diferenceCash) {
 
-		// how good is it? or is it good really? keep the same
-		// winning and spending less. make no change please
-		// winning but spending more. reevaluate
 		if (difSpen < 0) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
 		}
 	}
 
+	/**
+	 * i'm loosing and spending more? This is bad if i'm loosing and spending the
+	 * same amount? raize intensity.
+	 * 
+	 * @param difSpen
+	 * @param diferenceQuantity
+	 */
 	private void evaluateLosing(int difSpen, DiferenceRelativeToAmount diferenceQuantity) {
 		if (difSpen > 0) {
 			changeIntensityLosingAndSpendingLess(diferenceQuantity);
-		} else if (difSpen < 0) { // i'm loosing and spending more. This is bad
-			// go for a bait*
+		} else if (difSpen < 0) {
+			// dont know what to do here.. maybe go for zeros until the diference balances out?
 		} else {
 			// if i'm loosing and spending the same amount, raize intensity.
 			raizeIntensity();
 		}
 	}
 
+	/**
+	 * In case winning but spending much more?
+	 * @param diferenceQuantity
+	 * @param diferenceCash
+	 */
 	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmount diferenceQuantity,
 			DiferenceRelativeToAmount diferenceCash) {
 
-		if (diferenceQuantity.equals(DiferenceRelativeToAmount.SMALL)
+		if (diferenceQuantity.equals(DiferenceRelativeToAmount.MODERATE)
 				&& diferenceCash.equals(DiferenceRelativeToAmount.LARGE)) {
 			lowerIntensity();
 		}
