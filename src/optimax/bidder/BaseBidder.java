@@ -53,7 +53,7 @@ public abstract class BaseBidder {
 	 * 
 	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
 	 */
-	public DiferenceRelativeToAmount inCash() {
+	public DiferenceRelativeToAmount difInCash() {
 		int evaluation = cash - diferenceInSpense();
 		int perc = (evaluation/cash) * 100;
 		if(perc <= 20) {
@@ -76,7 +76,7 @@ public abstract class BaseBidder {
 	 * @return DiferenceRelativeToAmount SMALL <= 10% > MODERATE <= 20% > or LARGE
 	 * @return
 	 */
-	public DiferenceRelativeToAmount inQuantity() {
+	public DiferenceRelativeToAmount difInQuantity() {
 		int evaluation = Math.abs(diferenceInQuantity());
 		int perc = (evaluation/(quantity+opponnentQuantity)) * 100;
 		if(perc <= 10) {

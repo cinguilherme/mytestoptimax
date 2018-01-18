@@ -4,6 +4,7 @@ import optimax.bidder.BaseBidder;
 import optimax.bidder.behaviourcontrol.BehaviorMultiplierEnum;
 import optimax.bidder.behaviourcontrol.Behaviour;
 import optimax.bidder.behaviourcontrol.BehaviourStrategyEnum;
+import optimax.bidder.behaviourcontrol.DiferenceRelativeToAmount;
 
 public class Safe extends Behaviour {
 
@@ -56,7 +57,16 @@ public class Safe extends Behaviour {
 	@Override
 	public void reEvaluateStrategy(BaseBidder bidder) {
 		
+		int winning = bidder.diferenceInQuantity();
+		int difSpen = bidder.diferenceInSpense();
+		DiferenceRelativeToAmount difQ = bidder.difInQuantity();
+		DiferenceRelativeToAmount difC = bidder.difInCash();
 		
+		if(winning <= 0 && difSpen >= 0) {
+			//how good is it? or is it good really?
+		} else {
+			//how bad is it? or is it bad really?
+		}
 		
 	}
 
