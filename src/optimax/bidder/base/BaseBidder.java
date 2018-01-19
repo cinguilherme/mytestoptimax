@@ -1,5 +1,6 @@
 package optimax.bidder.base;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import optimax.bidder.behaviourcontrol.Behaviour;
@@ -19,92 +20,102 @@ public abstract class BaseBidder {
 
 	public OpponnetData opponentData;
 	public SelfData data;
-	
+
 	public BaseBidder() {
 		opponentData = new OpponnetData();
 		data = new SelfData();
+		actionResults = new ArrayList<ActionResult>();
 	}
 
 	/**
 	 * 
-	 * @return the diference from the opponent spenses to my own. Negative means I spent more
+	 * @return the diference from the opponent spenses to my own. Negative means I
+	 *         spent more
 	 */
 	public int diferenceInSpense() {
 		return opponentData.spentCash - data.spentCash;
 	}
-	
+
 	/**
 	 * 
-	 * @return the diference from the opponent qauntity to my own. Negative means I got more produts
+	 * @return the diference from the opponent qauntity to my own. Negative means I
+	 *         got more produts
 	 */
 	public int diferenceInQuantity() {
 		return opponentData.quantity - data.quantity;
 	}
-	
+
 	/**
-	 * determine how big is the diference in cash spent? 
-	 * this diference should provide support to how wild or safe you can be in terms of agressive bidds.
+	 * determine how big is the diference in cash spent? this diference should
+	 * provide support to how wild or safe you can be in terms of agressive bidds.
 	 * 
 	 * rule: cash diference in relation to the remainder cash
 	 * 
-	 * EX: cash = 50; diference = -10 -> dif is 60 how bad is it? 60 is 20% higher than 50. It should be SMALL
+	 * EX: cash = 50; diference = -10 -> dif is 60 how bad is it? 60 is 20% higher
+	 * than 50. It should be SMALL
 	 * 
 	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
 	 */
 	public DiferenceRelativeToAmount difInCash() {
+
 		int evaluation = data.cash - diferenceInSpense();
-		int perc = (evaluation/data.cash) * 100;
-		if(perc <= 20) {
-			return DiferenceRelativeToAmount.SMALL;
-		} else if(perc <= 35) {
-			return DiferenceRelativeToAmount.MODERATE;
+		if (data.cash > 0) {
+			int perc = (evaluation / data.cash) * 100;
+			if (perc <= 20) {
+				return DiferenceRelativeToAmount.SMALL;
+			} else if (perc <= 35) {
+				return DiferenceRelativeToAmount.MODERATE;
+			} else {
+				return DiferenceRelativeToAmount.LARGE;
+			}
 		} else {
-			return DiferenceRelativeToAmount.LARGE;
+			return Math.abs(evaluation) > 20 ? DiferenceRelativeToAmount.LARGE : DiferenceRelativeToAmount.MODERATE;
 		}
 	}
-	
+
 	/**
-	 * Determine how big is the diference in quantity gained? 
-	 * this diference should provide support to how wild or safe you can be in terms of agressive bidds.
+	 * Determine how big is the diference in quantity gained? this diference should
+	 * provide support to how wild or safe you can be in terms of agressive bidds.
 	 * 
 	 * rule: cash diference in relation to the total quantity so far
 	 * 
-	 * EX: quantity = 50; diference = -10 and opponent quantity = 40-> dif is 10 in relation to 90, its very small edge.
+	 * EX: quantity = 50; diference = -10 and opponent quantity = 40-> dif is 10 in
+	 * relation to 90, its very small edge.
 	 * 
 	 * @return DiferenceRelativeToAmount SMALL <= 10% > MODERATE <= 20% > or LARGE
 	 * @return
 	 */
 	public DiferenceRelativeToAmount difInQuantity() {
 		int evaluation = Math.abs(diferenceInQuantity());
-		int perc = (evaluation/(data.quantity + opponentData.quantity)) * 100;
-		if(perc <= 10) {
+		int perc = (evaluation / (data.quantity + opponentData.quantity)) * 100;
+		if (perc <= 10) {
 			return DiferenceRelativeToAmount.SMALL;
-		} else if(perc <= 20) {
+		} else if (perc <= 20) {
 			return DiferenceRelativeToAmount.MODERATE;
 		} else {
 			return DiferenceRelativeToAmount.LARGE;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param value
 	 * @return
 	 */
-	public boolean pay(int value) {
-		
+	public int pay(int value) {
+		System.out.println("pay :" + value + " and currently have: " + data.cash);
 		if (data.numberOfBids == 0) {
 			data.inicialCash = data.cash;
 		}
 		data.numberOfBids++;
-		
-		if(data.canPay(value)) {
+
+		if (data.canPay(value)) {
 			data.cash -= value;
 			data.spentCash += value;
-			return true;
+			return value;
 		}
-		
-		return false;
+
+		return 0;
 	}
 
 	/**
@@ -117,20 +128,26 @@ public abstract class BaseBidder {
 		opponentData.lastBid = other;
 		if (own < other) {
 			getActionResults().add(ActionResult.LOSS);
+			data.straightLossCounter++;
 			opponentData.quantity += 2;
 			opponentData.winingBids.add(other);
 		} else if (own == other) {
 			getActionResults().add(ActionResult.TIED);
+			data.straightLossCounter = 0;
 			data.quantity += 1;
 			opponentData.quantity += 1;
 		} else {
 			getActionResults().add(ActionResult.WIN);
+			data.straightLossCounter = 0;
 			data.quantity += 2;
 			data.winingBids.add(own);
 		}
-		opponentData.allBids.add(other);
+		
 		data.allBids.add(own);
-		this.opponentData.spentCash += other;
+		data.spentCash += own;
+
+		opponentData.allBids.add(other);
+		opponentData.spentCash += other;
 	}
 
 	public Behaviour getBehaviour() {

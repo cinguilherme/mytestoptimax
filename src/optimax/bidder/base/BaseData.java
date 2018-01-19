@@ -7,15 +7,15 @@ public class BaseData {
 
 	public int quantity = 0;
 	public int spentCash = 0;
-	
+
 	public List<Integer> allBids;
 	public List<Integer> winingBids;
-	
+
 	public BaseData() {
 		allBids = new ArrayList<Integer>();
 		winingBids = new ArrayList<Integer>();
 	}
-	
+
 	public Integer averageWinningBid() {
 		return average(winingBids);
 	}
@@ -25,11 +25,15 @@ public class BaseData {
 	}
 
 	private Integer average(List<Integer> bids) {
+		if (bids.size() < 1) {
+			return 0;
+		}
+
 		int av = 0;
 		for (Integer bid : bids) {
 			av += bid;
 		}
-		return Math.round(av/bids.size());
+		return Math.round(av / bids.size());
 	}
-	
+
 }
