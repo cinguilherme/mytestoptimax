@@ -126,6 +126,17 @@ public abstract class BaseBidder {
 	 */
 	public void evaluateResultsAndRegistre(int own, int other) {
 		opponentData.lastBid = other;
+		
+		declareWinner(own, other);
+		
+		data.allBids.add(own);
+		data.spentCash += own;
+
+		opponentData.allBids.add(other);
+		opponentData.spentCash += other;
+	}
+
+	private void declareWinner(int own, int other) {
 		if (own < other) {
 			getActionResults().add(ActionResult.LOSS);
 			data.straightLossCounter++;
@@ -142,12 +153,6 @@ public abstract class BaseBidder {
 			data.quantity += 2;
 			data.winingBids.add(own);
 		}
-		
-		data.allBids.add(own);
-		data.spentCash += own;
-
-		opponentData.allBids.add(other);
-		opponentData.spentCash += other;
 	}
 
 	public Behaviour getBehaviour() {
