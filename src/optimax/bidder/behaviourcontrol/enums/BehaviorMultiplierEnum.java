@@ -1,4 +1,4 @@
-package optimax.bidder.behaviourcontrol;
+package optimax.bidder.behaviourcontrol.enums;
 
 public enum BehaviorMultiplierEnum {
 	HOLD(0, "Hold"), SHY(1,"Shy"), MODERATE(2.5,"Moderate"), AGRESSIVE(4,"Agressive");

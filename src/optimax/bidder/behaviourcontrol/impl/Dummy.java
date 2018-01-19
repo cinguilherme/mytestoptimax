@@ -1,9 +1,9 @@
 package optimax.bidder.behaviourcontrol.impl;
 
 import optimax.bidder.base.BaseBidder;
-import optimax.bidder.behaviourcontrol.BehaviorMultiplierEnum;
 import optimax.bidder.behaviourcontrol.Behaviour;
-import optimax.bidder.behaviourcontrol.BehaviourStrategyEnum;
+import optimax.bidder.behaviourcontrol.enums.BehaviorMultiplierEnum;
+import optimax.bidder.behaviourcontrol.enums.BehaviourStrategyEnum;
 
 public class Dummy extends Behaviour {
 

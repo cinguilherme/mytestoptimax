@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import optimax.bidder.behaviourcontrol.Behaviour;
-import optimax.bidder.behaviourcontrol.DiferenceRelativeToAmount;
+import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 import optimax.bidder.resultcontrol.ActionResult;
 
 /**
@@ -56,20 +56,20 @@ public abstract class BaseBidder {
 	 * 
 	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
 	 */
-	public DiferenceRelativeToAmount difInCash() {
+	public DiferenceRelativeToAmountEnum difInCash() {
 
 		int evaluation = data.cash - diferenceInSpense();
 		if (data.cash > 0) {
 			int perc = (evaluation / data.cash) * 100;
 			if (perc <= 20) {
-				return DiferenceRelativeToAmount.SMALL;
+				return DiferenceRelativeToAmountEnum.SMALL;
 			} else if (perc <= 35) {
-				return DiferenceRelativeToAmount.MODERATE;
+				return DiferenceRelativeToAmountEnum.MODERATE;
 			} else {
-				return DiferenceRelativeToAmount.LARGE;
+				return DiferenceRelativeToAmountEnum.LARGE;
 			}
 		} else {
-			return Math.abs(evaluation) > 20 ? DiferenceRelativeToAmount.LARGE : DiferenceRelativeToAmount.MODERATE;
+			return Math.abs(evaluation) > 20 ? DiferenceRelativeToAmountEnum.LARGE : DiferenceRelativeToAmountEnum.MODERATE;
 		}
 	}
 
@@ -85,15 +85,15 @@ public abstract class BaseBidder {
 	 * @return DiferenceRelativeToAmount SMALL <= 10% > MODERATE <= 20% > or LARGE
 	 * @return
 	 */
-	public DiferenceRelativeToAmount difInQuantity() {
+	public DiferenceRelativeToAmountEnum difInQuantity() {
 		int evaluation = Math.abs(diferenceInQuantity());
 		int perc = (evaluation / (data.quantity + opponentData.quantity)) * 100;
 		if (perc <= 10) {
-			return DiferenceRelativeToAmount.SMALL;
+			return DiferenceRelativeToAmountEnum.SMALL;
 		} else if (perc <= 20) {
-			return DiferenceRelativeToAmount.MODERATE;
+			return DiferenceRelativeToAmountEnum.MODERATE;
 		} else {
-			return DiferenceRelativeToAmount.LARGE;
+			return DiferenceRelativeToAmountEnum.LARGE;
 		}
 	}
 

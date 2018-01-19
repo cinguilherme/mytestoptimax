@@ -1,10 +1,10 @@
 package optimax.bidder.behaviourcontrol.impl;
 
 import optimax.bidder.base.BaseBidder;
-import optimax.bidder.behaviourcontrol.BehaviorMultiplierEnum;
 import optimax.bidder.behaviourcontrol.Behaviour;
-import optimax.bidder.behaviourcontrol.BehaviourStrategyEnum;
-import optimax.bidder.behaviourcontrol.DiferenceRelativeToAmount;
+import optimax.bidder.behaviourcontrol.enums.BehaviorMultiplierEnum;
+import optimax.bidder.behaviourcontrol.enums.BehaviourStrategyEnum;
+import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 
 public class Safe extends Behaviour {
 
@@ -105,8 +105,8 @@ public class Safe extends Behaviour {
 
 		int winning = bidder.diferenceInQuantity();
 		int difSpen = bidder.diferenceInSpense();
-		DiferenceRelativeToAmount diferenceQuantity = bidder.difInQuantity();
-		DiferenceRelativeToAmount diferenceCash = bidder.difInCash();
+		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();
+		DiferenceRelativeToAmountEnum diferenceCash = bidder.difInCash();
 
 		System.out.println("reEvaluateStrategy");
 
@@ -125,8 +125,8 @@ public class Safe extends Behaviour {
 	 * @param diferenceQuantity
 	 * @param diferenceCash
 	 */
-	private void evaluateWinning(int difSpen, DiferenceRelativeToAmount diferenceQuantity,
-			DiferenceRelativeToAmount diferenceCash) {
+	private void evaluateWinning(int difSpen, DiferenceRelativeToAmountEnum diferenceQuantity,
+			DiferenceRelativeToAmountEnum diferenceCash) {
 
 		if (difSpen < 0) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
@@ -143,7 +143,7 @@ public class Safe extends Behaviour {
 	 * @param difSpen
 	 * @param diferenceQuantity
 	 */
-	private void evaluateLosing(int difSpen, DiferenceRelativeToAmount diferenceQuantity) {
+	private void evaluateLosing(int difSpen, DiferenceRelativeToAmountEnum diferenceQuantity) {
 		if (difSpen > 0) {
 			changeIntensityLosingAndSpendingLess(diferenceQuantity);
 		} else if (difSpen < 0) {
@@ -162,13 +162,13 @@ public class Safe extends Behaviour {
 	 * @param diferenceQuantity
 	 * @param diferenceCash
 	 */
-	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmount diferenceQuantity,
-			DiferenceRelativeToAmount diferenceCash) {
+	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmountEnum diferenceQuantity,
+			DiferenceRelativeToAmountEnum diferenceCash) {
 
 		System.out.println("winning and spending more");
 
-		if (diferenceQuantity.equals(DiferenceRelativeToAmount.MODERATE)
-				&& diferenceCash.equals(DiferenceRelativeToAmount.LARGE)) {
+		if (diferenceQuantity.equals(DiferenceRelativeToAmountEnum.MODERATE)
+				&& diferenceCash.equals(DiferenceRelativeToAmountEnum.LARGE)) {
 			System.out.println("MUCH more");
 			lowerIntensity();
 			relativeModifier -= 2;
@@ -178,7 +178,7 @@ public class Safe extends Behaviour {
 
 	}
 
-	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmount diferenceQuantity) {
+	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmountEnum diferenceQuantity) {
 		System.out.println("loosing and spending less");
 		switch (diferenceQuantity) {
 		case SMALL:

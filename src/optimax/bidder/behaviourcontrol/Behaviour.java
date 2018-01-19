@@ -1,6 +1,8 @@
 package optimax.bidder.behaviourcontrol;
 
 import optimax.bidder.base.BaseBidder;
+import optimax.bidder.behaviourcontrol.enums.BehaviorMultiplierEnum;
+import optimax.bidder.behaviourcontrol.enums.BehaviourStrategyEnum;
 
 public abstract class Behaviour {
 
