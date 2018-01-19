@@ -103,7 +103,6 @@ public abstract class BaseBidder {
 	 * @return
 	 */
 	public int pay(int value) {
-		System.out.println("pay :" + value + " and currently have: " + data.cash);
 		if (data.numberOfBids == 0) {
 			data.inicialCash = data.cash;
 		}

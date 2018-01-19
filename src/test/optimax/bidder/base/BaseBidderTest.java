@@ -1,7 +1,5 @@
 package test.optimax.bidder.base;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -32,11 +30,46 @@ class BaseBidderTest {
 		Assert.assertTrue(bidder.data.spentCash == own);
 	}
 	
+	@Test
 	void testDiferenceInSpense() {
+		int own = 100;
+		int other = 80;
+		bidder.evaluateResultsAndRegistre(own, other);
+		bidder.evaluateResultsAndRegistre(own, other);
 		
+		Assert.assertTrue(bidder.diferenceInSpense() == -40);
+		
+		bidder.evaluateResultsAndRegistre(own, other);
+		bidder.evaluateResultsAndRegistre(own, other);
+		
+		Assert.assertTrue(bidder.diferenceInSpense() == -80);
 	}
 	
+	@Test
 	void testDiferenceInQuantity() {
+		int own = 100;
+		int other = 80;
+		bidder.evaluateResultsAndRegistre(own, other);
+		bidder.evaluateResultsAndRegistre(own, other);
+		
+		Assert.assertTrue(bidder.diferenceInQuantity() == -4);
+		
+		bidder.evaluateResultsAndRegistre(own, other);
+		bidder.evaluateResultsAndRegistre(own, other);
+		
+		Assert.assertTrue(bidder.diferenceInQuantity() == -8);
+	}
+	
+	@Test
+	void testPay() {
+		int val = 100;
+		bidder.data.cash = 120;
+		
+		Assert.assertTrue(bidder.pay(100) == 100);
+		Assert.assertTrue(bidder.data.cash == 20);
+		
+		Assert.assertTrue(bidder.pay(100) == 0);
+		Assert.assertTrue(bidder.data.cash == 20);
 		
 	}
 	
