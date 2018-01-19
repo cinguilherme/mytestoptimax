@@ -10,6 +10,8 @@ public class SelfData extends BaseData{
 	
 	public int numberOfBids = 0;
 	
+	public int straightLossCounter = 0;
+	
 	public boolean canPay(int value) {
 		if(cash >= value) {
 			return true;

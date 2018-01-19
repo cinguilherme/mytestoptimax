@@ -18,14 +18,21 @@ public class SillyBidder extends BaseBidder implements Bidder {
 
 	@Override
 	public int placeBid() {
-
-		// the bidder has the data, the behavior is going to decide what to do.
-		// if behavior not working, change behavior to a best match against the opponent
-		// behavior
-
-		int bid = this.getBehaviour().getMyNextBidBasedOnBehaviorAndConditions(this);
-		this.pay(bid);
+		int bid = getBehaviour().getMyNextBidBasedOnBehaviorAndConditions(this);
+		bid = pay(bid);
 		return bid;
+	}
+	
+	@Override
+	public int pay(int value) {
+		System.out.println("pay :"+value+" and currently have: "+data.cash);
+		data.numberOfBids++;
+		while(data.canPay(value) == false) {
+			value--;
+		}
+		data.cash -= value;
+		data.spentCash += value;
+		return value;
 	}
 
 	@Override

@@ -8,11 +8,14 @@ import optimax.bidder.behaviourcontrol.DiferenceRelativeToAmount;
 
 public class Safe extends Behaviour {
 
+	private int relativeModifier = 2;
+	private int lossInRow = 0;
+
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
 		this.currentStrategy = BehaviourStrategyEnum.SEEK;
 	}
-	
+
 	public Safe(BehaviorMultiplierEnum mult, BehaviourStrategyEnum strategy) {
 		super(mult);
 		this.currentStrategy = strategy;
@@ -53,9 +56,48 @@ public class Safe extends Behaviour {
 	 */
 	@Override
 	public int seek(BaseBidder bidder) {
+
+		reEvaluateStrategy(bidder);
 		
-		return (int) Math.round(bidder.opponentData.averageWinningBid() * this.intensity.getCodeMultiplier());
-		
+		int max = evaluateMyMaxBid(bidder);
+
+		//chaos play, i'm getting readed
+		if (evaluateShock(bidder)) {
+			return 0;
+		} else {
+			int intentBid = (int) Math.round(
+					(bidder.opponentData.averageWinningBid() + this.relativeModifier) * this.intensity.getCodeMultiplier());
+
+			return intentBid <= max ? intentBid : max;
+		}
+	}
+
+	/**
+	 * sets straight loss counter back to 0 because the next bid will be a loss.
+	 * @param bidder
+	 * @return
+	 */
+	private boolean evaluateShock(BaseBidder bidder) {
+		if (bidder.data.straightLossCounter > 2) {
+			bidder.data.straightLossCounter = 0;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Max bid should not be over 20% on inicial cash pool while it is over 50%
+	 * after that the max should be 20% of the remainder
+	 * 
+	 * @param bidder
+	 * @return
+	 */
+	private int evaluateMyMaxBid(BaseBidder bidder) {
+		int totalInicial = bidder.data.spentCash + bidder.data.cash;
+		if (bidder.data.spentCash > totalInicial / 2) {
+			return bidder.data.cash / 10;
+		}
+		return (totalInicial / 10) * 2;
 	}
 
 	@Override
@@ -65,6 +107,8 @@ public class Safe extends Behaviour {
 		int difSpen = bidder.diferenceInSpense();
 		DiferenceRelativeToAmount diferenceQuantity = bidder.difInQuantity();
 		DiferenceRelativeToAmount diferenceCash = bidder.difInCash();
+
+		System.out.println("reEvaluateStrategy");
 
 		if (winning <= 0) {
 			evaluateWinning(difSpen, diferenceQuantity, diferenceCash);
@@ -86,6 +130,9 @@ public class Safe extends Behaviour {
 
 		if (difSpen < 0) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
+		} else {
+			// winning and spending less? outher bot will try to raise;
+			this.relativeModifier += 2;
 		}
 	}
 
@@ -100,7 +147,8 @@ public class Safe extends Behaviour {
 		if (difSpen > 0) {
 			changeIntensityLosingAndSpendingLess(diferenceQuantity);
 		} else if (difSpen < 0) {
-			// dont know what to do here.. maybe go for zeros until the diference balances out?
+			// dont know what to do here.. maybe go for sky straight way
+			// out?
 			changeIntensity(BehaviorMultiplierEnum.HOLD);
 		} else {
 			// if i'm loosing and spending the same amount, raize intensity.
@@ -110,20 +158,28 @@ public class Safe extends Behaviour {
 
 	/**
 	 * In case winning but spending much more?
+	 * 
 	 * @param diferenceQuantity
 	 * @param diferenceCash
 	 */
 	private void changeIntensityWinningAndSpendingMore(DiferenceRelativeToAmount diferenceQuantity,
 			DiferenceRelativeToAmount diferenceCash) {
 
+		System.out.println("winning and spending more");
+
 		if (diferenceQuantity.equals(DiferenceRelativeToAmount.MODERATE)
 				&& diferenceCash.equals(DiferenceRelativeToAmount.LARGE)) {
+			System.out.println("MUCH more");
 			lowerIntensity();
+			relativeModifier -= 2;
+		} else {
+			relativeModifier += 2;
 		}
 
 	}
 
 	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmount diferenceQuantity) {
+		System.out.println("loosing and spending less");
 		switch (diferenceQuantity) {
 		case SMALL:
 			raizeIntensity();
