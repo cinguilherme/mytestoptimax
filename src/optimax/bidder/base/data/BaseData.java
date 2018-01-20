@@ -74,5 +74,9 @@ public class BaseData {
 		}
 		return res;
 	}
+	
+	public boolean checkLosingCycle() {
+		return DataProcessingModule.isLossCycle(biddsList);
+	}
 
 }

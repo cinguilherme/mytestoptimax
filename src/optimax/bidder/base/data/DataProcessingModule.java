@@ -48,19 +48,28 @@ public class DataProcessingModule {
 		return result;
 	}
 
-	public static boolean isThereALossCycle(List<BiddingData> allBidding) {
+	public static boolean isLossCycle(List<BiddingData> allBidding) {
 
-		List<BiddingData> allMyLoss = allBidding.stream().filter(biddData -> biddData.getResult() < 0)
-				.collect(Collectors.toList());
+		List<BiddingData> allMyLoss = allLostTurns(allBidding);
 
+		int[] turnLossRep = getListOfSequenceOfStraightLosses(allMyLoss);
+
+		for (int i = 0; i < turnLossRep.length - 1; i++) {
+			if (turnLossRep[i] != turnLossRep[i + 1]) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static int[] getListOfSequenceOfStraightLosses(List<BiddingData> allMyLoss) {
+		int[] turnLossRep = new int[allMyLoss.size()];
 		int turnCounter = 0;
-		
 		int currentTurnLoss = 0;
-		
-		int maxTurnLoss = 0;
-		int[] maxTurnLossRep = new int[allMyLoss.size()];
 		int index = 0;
-		
+		int maxTurnLoss = 0;
+
 		for (BiddingData biddingData : allMyLoss) {
 			if (turnCounter == 0) {
 				turnCounter = biddingData.getTurn();
@@ -68,7 +77,7 @@ public class DataProcessingModule {
 				if (turnCounter == biddingData.getTurn() + 1) {
 					currentTurnLoss++;
 				} else {
-					maxTurnLossRep[index++] = currentTurnLoss;
+					turnLossRep[index++] = currentTurnLoss;
 					if (currentTurnLoss > maxTurnLoss) {
 						maxTurnLoss = currentTurnLoss;
 					}
@@ -76,8 +85,12 @@ public class DataProcessingModule {
 				}
 			}
 		}
+		return turnLossRep;
+	}
 
-		return false;
+	private static List<BiddingData> allLostTurns(List<BiddingData> allBidding) {
+		return allBidding.stream().filter(biddData -> biddData.getResult() < 0)
+				.collect(Collectors.toList());
 	}
 
 }
