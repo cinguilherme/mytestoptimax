@@ -79,8 +79,8 @@ public abstract class BaseBidder {
 	 * @return
 	 */
 	public DiferenceRelativeToAmountEnum difInQuantity() {
-		int evaluation = Math.abs(diferenceInQuantity());
-		int perc = (evaluation / (data.quantity + opponentData.quantity)) * 100;
+		double evaluation = Math.abs(diferenceInQuantity());
+		double perc = (evaluation / ((double)data.quantity + (double)opponentData.quantity)) * 100;
 		if (perc <= 10) {
 			return DiferenceRelativeToAmountEnum.SMALL;
 		} else if (perc <= 20) {

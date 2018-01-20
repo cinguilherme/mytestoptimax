@@ -75,7 +75,7 @@ class BaseBidderTest {
 	}
 	
 	@Test
-	void testDiferenceRelativeToAmount() {
+	void testDiferenceCashSpentRelativeToOpponent() {
 		bidder.data.spentCash = 30;
 		bidder.opponentData.spentCash = 15;
 		
@@ -93,6 +93,28 @@ class BaseBidderTest {
 		bidder.data.spentCash = 400;
 		bidder.opponentData.spentCash = 480;
 		Assert.assertTrue(bidder.difInCash().equals(DiferenceRelativeToAmountEnum.SMALL));
+		
+	}
+	
+	@Test
+	void testDiferenceQuantityRelativeToOpponent() {
+		bidder.data.quantity = 30;
+		bidder.opponentData.quantity = 15;
+		
+		Assert.assertTrue(bidder.difInQuantity().equals(DiferenceRelativeToAmountEnum.LARGE));
+		
+		bidder.data.quantity = 1;
+		bidder.opponentData.quantity = 2;
+		Assert.assertTrue(bidder.difInQuantity().equals(DiferenceRelativeToAmountEnum.LARGE));
+		
+		
+		bidder.data.quantity = 5;
+		bidder.opponentData.quantity = 7;
+		Assert.assertTrue(bidder.difInQuantity().equals(DiferenceRelativeToAmountEnum.MODERATE));
+		
+		bidder.data.quantity = 20;
+		bidder.opponentData.quantity = 10;
+		Assert.assertTrue(bidder.difInQuantity().equals(DiferenceRelativeToAmountEnum.LARGE));
 		
 	}
 	
