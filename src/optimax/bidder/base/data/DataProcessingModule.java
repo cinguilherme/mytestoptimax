@@ -1,4 +1,4 @@
-package optimax.bidder.base.intel;
+package optimax.bidder.base.data;
 
 public class DataProcessingModule {
 
