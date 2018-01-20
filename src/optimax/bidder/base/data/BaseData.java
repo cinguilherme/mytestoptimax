@@ -3,7 +3,7 @@ package optimax.bidder.base.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import optimax.bidder.base.data.dataprocessing.DataProcessingModule;
+import optimax.bidder.base.data.intel.DataProcessingModule;
 
 public class BaseData {
 

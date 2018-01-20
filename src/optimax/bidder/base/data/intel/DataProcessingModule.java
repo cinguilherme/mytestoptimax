@@ -1,4 +1,4 @@
-package optimax.bidder.base.data.dataprocessing;
+package optimax.bidder.base.data.intel;
 
 import java.util.List;
 import java.util.stream.Collectors;
