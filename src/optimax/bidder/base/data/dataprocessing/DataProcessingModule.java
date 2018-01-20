@@ -50,6 +50,11 @@ public class DataProcessingModule {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param allBidding
+	 * @return true if every loss sequence has the same size.
+	 */
 	public static boolean isLossCycle(List<BiddingData> allBidding) {
 
 		List<BiddingData> allMyLoss = allLostTurns(allBidding);
@@ -65,6 +70,11 @@ public class DataProcessingModule {
 		return true;
 	}
 
+	/**
+	 * Iterate though the list of losses and check the sequence of turns.
+	 * @param allMyLoss
+	 * @return list of ints that represent how many turns were lost in a row
+	 */
 	private static int[] getListOfSequenceOfStraightLosses(List<BiddingData> allMyLoss) {
 		int[] turnLossRep = new int[allMyLoss.size()];
 		int turnCounter = 0;
@@ -90,6 +100,11 @@ public class DataProcessingModule {
 		return turnLossRep;
 	}
 
+	/**
+	 * stream through the list of biddings and return a list of biddings that resulted in a loss
+	 * @param allBidding
+	 * @return all biddings that I lost
+	 */
 	private static List<BiddingData> allLostTurns(List<BiddingData> allBidding) {
 		return allBidding.stream().filter(biddData -> biddData.getResult() < 0)
 				.collect(Collectors.toList());
