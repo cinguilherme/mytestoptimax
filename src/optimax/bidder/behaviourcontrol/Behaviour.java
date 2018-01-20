@@ -17,6 +17,9 @@ public abstract class Behaviour {
 		this.intensity = intesity;
 	}
 
+	/**
+	 * raize the intensity
+	 */
 	protected void raizeIntensity() {
 		switch (this.intensity) {
 		case HOLD:
@@ -33,6 +36,9 @@ public abstract class Behaviour {
 		}
 	}
 
+	/**
+	 * lower the intensity
+	 */
 	protected void lowerIntensity() {
 		switch (this.intensity) {
 		case AGRESSIVE:
@@ -49,6 +55,11 @@ public abstract class Behaviour {
 		}
 	}
 
+	/**
+	 * Get the next bid value depending on the current strategy.
+	 * @param bidder
+	 * @return
+	 */
 	public int getMyNextBidBasedOnBehaviorAndConditions(BaseBidder bidder) {
 		if (bidder.data.numberOfBids == 0) {
 			return opener(bidder);
@@ -75,14 +86,30 @@ public abstract class Behaviour {
 		//default does not reavaluate.
 	}
 
+	/**
+	 * First play, basic opener is Zero.
+	 * @param bidder
+	 * @return
+	 */
 	public int opener(BaseBidder bidder) {
 		return 0;
 	}
 
+	/**
+	 * Basic response is always the last bid of the opponent + 1.
+	 * @param bidder
+	 * @return
+	 */
 	public int respond(BaseBidder bidder) {
 		return bidder.opponentData.lastBid + 1;
 	}
 
+	/**
+	 * Basic bait is play zero if the opponent is playing over 20% the average winning bids he did,
+	 *  if not play the average winning bid of the oponnet + 10%
+	 * @param bidder
+	 * @return
+	 */
 	public int bait(BaseBidder bidder) {
 		if (bidder.opponentData.lastBid > bidder.opponentData.averageWinningBid() * 1.2) {
 			return 0;
@@ -91,8 +118,13 @@ public abstract class Behaviour {
 		return Math.round(bidder.opponentData.averageWinningBid() * 1.1F);
 	}
 
+	/**
+	 * Basic trade is to not bid if the diference in quantity is above 10 units. 
+	 * @param bidder
+	 * @return
+	 */
 	public int trade(BaseBidder bidder) {
-		if (bidder.diferenceInQuantity() > 2) {
+		if (bidder.diferenceInQuantity() > 10) {
 			return 0;
 		} else {
 			return respond(bidder);
