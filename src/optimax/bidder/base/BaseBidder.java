@@ -51,9 +51,9 @@ public abstract class BaseBidder {
 	 */
 	public DiferenceRelativeToAmountEnum difInCash() {
 
-		if (data.cash > 0) {
+		if ((double) data.spentCash + (double) opponentData.spentCash > 0) {
 			int evaluation = Math.abs(diferenceInSpense());
-			double perc = ((double)evaluation / (double)data.cash) * 100;
+			double perc = ((double) evaluation / ((double) data.spentCash + (double) opponentData.spentCash)) * 100;
 			if (perc <= 20) {
 				return DiferenceRelativeToAmountEnum.SMALL;
 			} else if (perc <= 35) {
@@ -62,7 +62,7 @@ public abstract class BaseBidder {
 				return DiferenceRelativeToAmountEnum.LARGE;
 			}
 		} else {
-			return DiferenceRelativeToAmountEnum.LARGE;
+			return DiferenceRelativeToAmountEnum.SMALL;
 		}
 	}
 
@@ -118,9 +118,9 @@ public abstract class BaseBidder {
 	 */
 	public void evaluateResultsAndRegistre(int own, int other) {
 		opponentData.lastBid = other;
-		
+
 		declareWinner(own, other);
-		
+
 		data.allBids.add(own);
 		data.spentCash += own;
 

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import optimax.bidder.base.BaseBidder;
+import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 
 class BaseBidderTest {
 
@@ -75,29 +76,24 @@ class BaseBidderTest {
 	
 	@Test
 	void testDiferenceRelativeToAmount() {
-		bidder.data.cash = 100;
 		bidder.data.spentCash = 30;
 		bidder.opponentData.spentCash = 15;
 		
-		int dif;
-		dif = bidder.diferenceInSpense();
-		System.out.println(dif);
-		
-		System.out.println(bidder.difInCash());
+		Assert.assertTrue(bidder.difInCash().equals(DiferenceRelativeToAmountEnum.MODERATE));
 		
 		bidder.data.spentCash = 500;
 		bidder.opponentData.spentCash = 480;
-		dif = bidder.diferenceInSpense();
-		System.out.println(dif);
+		Assert.assertTrue(bidder.difInCash().equals(DiferenceRelativeToAmountEnum.SMALL));
 		
-		System.out.println(bidder.difInCash());
 		
 		bidder.data.spentCash = 430;
 		bidder.opponentData.spentCash = 480;
-		dif = bidder.diferenceInSpense();
-		System.out.println(dif);
+		Assert.assertTrue(bidder.difInCash().equals(DiferenceRelativeToAmountEnum.SMALL));
 		
-		System.out.println(bidder.difInCash());
+		bidder.data.spentCash = 400;
+		bidder.opponentData.spentCash = 480;
+		Assert.assertTrue(bidder.difInCash().equals(DiferenceRelativeToAmountEnum.SMALL));
+		
 	}
 	
 	
