@@ -9,7 +9,22 @@ public class DataProcessingModule {
 	}
 	
 	
-	
+	/**
+	 * Calculate the average value in a list if not empty
+	 * @param bids
+	 * @return
+	 */
+	public static Integer average(List<Integer> bids) {
+		if (bids.size() < 1) {
+			return 0;
+		}
+
+		int av = 0;
+		for (Integer bid : bids) {
+			av += bid;
+		}
+		return Math.round(av / bids.size());
+	}
 	
 	/**
 	 * Check if values from a start index -> are escalating

@@ -25,7 +25,7 @@ public class BaseData {
 	 * @return
 	 */
 	public Integer averageWinningBid() {
-		return average(winingBids);
+		return DataProcessingModule.average(winingBids);
 	}
 
 	/**
@@ -34,19 +34,7 @@ public class BaseData {
 	 * @return
 	 */
 	public Integer averageBid() {
-		return average(allBids);
-	}
-
-	private Integer average(List<Integer> bids) {
-		if (bids.size() < 1) {
-			return 0;
-		}
-
-		int av = 0;
-		for (Integer bid : bids) {
-			av += bid;
-		}
-		return Math.round(av / bids.size());
+		return DataProcessingModule.average(allBids);
 	}
 
 	/**
