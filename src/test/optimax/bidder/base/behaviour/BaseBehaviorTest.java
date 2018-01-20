@@ -1,4 +1,4 @@
-package test.optimax.bidder.base;
+package test.optimax.bidder.base.behaviour;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
