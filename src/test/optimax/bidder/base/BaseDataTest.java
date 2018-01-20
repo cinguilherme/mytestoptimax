@@ -38,6 +38,38 @@ class BaseDataTest {
 		data.allBids.add(20);
 		Assert.assertTrue(data.averageBid() == 60/4);
 	}
-
 	
+	@Test
+	void testEscalatingWinnings() {
+		Assert.assertTrue(data.isWinningBiddsEscalating() == false);
+		
+		data.winingBids.add(10);
+		data.winingBids.add(11);
+		data.winingBids.add(12);
+		data.winingBids.add(13);
+		
+		Assert.assertTrue(data.isWinningBiddsEscalating() == false);
+		
+		data.winingBids.add(14);
+		Assert.assertTrue(data.isWinningBiddsEscalating() == true);
+		Assert.assertTrue(data.isWinningBiddsEscalating() == false);
+		
+	}
+	
+	@Test
+	void testEscalatingAll() {
+		Assert.assertTrue(data.isAllBidsEscalating() == false);
+		
+		data.allBids.add(10);
+		data.allBids.add(11);
+		data.allBids.add(12);
+		data.allBids.add(13);
+		
+		Assert.assertTrue(data.isAllBidsEscalating() == false);
+		
+		data.allBids.add(14);
+		Assert.assertTrue(data.isAllBidsEscalating() == true);
+		Assert.assertTrue(data.isAllBidsEscalating() == false);
+	}
+
 }

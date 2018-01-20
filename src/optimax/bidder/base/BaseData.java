@@ -84,7 +84,7 @@ public class BaseData {
 	 */
 	private boolean isListValueEscalating(List<Integer> list, Integer indexStart) {
 		boolean result = false;
-		if (list.size() - indexStart > 10) {
+		if (list.size() - indexStart >= 5) {
 			for (int i = indexStart; i < list.size() - 1; i++) {
 				if (list.get(i) > list.get(i + 1)) {
 					result = false;
