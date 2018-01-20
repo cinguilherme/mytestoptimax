@@ -3,6 +3,7 @@ package optimax.bidder.base.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import optimax.bidder.base.data.BiddingData;
 import optimax.bidder.behaviourcontrol.Behaviour;
 import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 import optimax.bidder.resultcontrol.ActionResult;
@@ -18,6 +19,8 @@ public abstract class BaseBidder {
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
 
+	private List<BiddingData> biddsList;
+	
 	public OpponnetData opponentData;
 	public SelfData data;
 
@@ -25,6 +28,7 @@ public abstract class BaseBidder {
 		opponentData = new OpponnetData();
 		data = new SelfData();
 		actionResults = new ArrayList<ActionResult>();
+		biddsList = new ArrayList<BiddingData>();
 	}
 
 	/**
@@ -80,7 +84,7 @@ public abstract class BaseBidder {
 	 */
 	public DiferenceRelativeToAmountEnum difInQuantity() {
 		double evaluation = Math.abs(diferenceInQuantity());
-		double perc = (evaluation / ((double)data.quantity + (double)opponentData.quantity)) * 100;
+		double perc = (evaluation / ((double) data.quantity + (double) opponentData.quantity)) * 100;
 		if (perc <= 10) {
 			return DiferenceRelativeToAmountEnum.SMALL;
 		} else if (perc <= 20) {
@@ -126,20 +130,33 @@ public abstract class BaseBidder {
 
 		opponentData.allBids.add(other);
 		opponentData.spentCash += other;
+
+		saveBiddData(own, other);
+	}
+
+	private void saveBiddData(int own, int other) {
+		BiddingData newBidd = new BiddingData();
+		newBidd.setOtherValue(other);
+		newBidd.setOwnValue(own);
+		newBidd.setTurn(data.allBids.size());
+		biddsList.add(newBidd);
 	}
 
 	private void declareWinner(int own, int other) {
 		if (own < other) {
+
 			getActionResults().add(ActionResult.LOSS);
 			data.straightLossCounter++;
 			opponentData.quantity += 2;
 			opponentData.winingBids.add(other);
 		} else if (own == other) {
+
 			getActionResults().add(ActionResult.TIED);
 			data.straightLossCounter = 0;
 			data.quantity += 1;
 			opponentData.quantity += 1;
 		} else {
+
 			getActionResults().add(ActionResult.WIN);
 			data.straightLossCounter = 0;
 			data.quantity += 2;
