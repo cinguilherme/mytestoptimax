@@ -33,6 +33,9 @@ public class Safe extends Behaviour {
 	@Override
 	protected void reEvaluateStrategy(BaseBidder bidder) {
 
+		//data inteligence should be handle by some other class.
+		bidder.data.checkLosingCycle();
+		
 		int winning = bidder.diferenceInQuantity();
 		int difSpen = bidder.diferenceInSpense();
 		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();

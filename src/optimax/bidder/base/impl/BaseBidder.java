@@ -3,7 +3,6 @@ package optimax.bidder.base.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import optimax.bidder.base.data.BiddingData;
 import optimax.bidder.behaviourcontrol.Behaviour;
 import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 import optimax.bidder.resultcontrol.ActionResult;
@@ -18,7 +17,7 @@ public abstract class BaseBidder {
 
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
-	
+
 	public OpponnetData opponentData;
 	public SelfData data;
 
