@@ -1,7 +1,9 @@
-package optimax.bidder.base.data;
+package optimax.bidder.base.data.dataprocessing;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import optimax.bidder.base.data.BiddingData;
 
 public class DataProcessingModule {
 

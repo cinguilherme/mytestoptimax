@@ -3,6 +3,8 @@ package optimax.bidder.base.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import optimax.bidder.base.data.dataprocessing.DataProcessingModule;
+
 public class BaseData {
 
 	public int quantity = 0;
