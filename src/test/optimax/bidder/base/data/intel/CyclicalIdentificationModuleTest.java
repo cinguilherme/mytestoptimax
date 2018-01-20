@@ -29,6 +29,22 @@ public class CyclicalIdentificationModuleTest {
 
 	private void setupNegativeResult() {
 		
+		for (int i = 0; i < 10; i++) {
+
+			BiddingData dat = new BiddingData();
+			if (i % 4 == 0 || i % 4 == 1) {
+				dat.setOwnValue(i);
+				dat.setOtherValue(i + 2);
+				dat.setResult(-2);
+			} else {
+				dat.setOwnValue(i + 2);
+				dat.setOtherValue(i + 1);
+				dat.setResult(1);
+			}
+			dat.setTurn(i + 1);
+
+			allBidding.add(dat);
+		}
 
 	}
 

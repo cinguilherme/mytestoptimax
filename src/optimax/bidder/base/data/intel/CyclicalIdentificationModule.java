@@ -26,7 +26,7 @@ public class CyclicalIdentificationModule {
 		for (int i = 0; i < turnLossRep.size() - 1; i++) {
 			if (turnLossRep.get(i) != turnLossRep.get(i + 1)) {
 				return false;
-			} else if (turnLossRep.get(i) == 0) {
+			} else if (turnLossRep.get(i) == 0) { //this sounds wrong, here I should evaluate if all losses are 1 and if so determine how spread apart they are.
 				return false;
 			}
 		}
