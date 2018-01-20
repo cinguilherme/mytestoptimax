@@ -8,35 +8,16 @@ import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 
 public class Safe extends Behaviour {
 
-	private int relativeModifier = 2;
-
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
 		this.currentStrategy = BehaviourStrategyEnum.TRADE;
 	}
 
-	public Safe(BehaviorMultiplierEnum mult, BehaviourStrategyEnum strategy) {
-		super(mult);
+	public Safe(BehaviorMultiplierEnum multiplier, BehaviourStrategyEnum strategy) {
+		super(multiplier);
 		this.currentStrategy = strategy;
 	}
 
-	@Override
-	public int respond(BaseBidder bidder) {
-		reEvaluateStrategy(bidder);
-
-		int max = evaluateMyMaxBid(bidder);
-
-		// chaos play, i'm getting readed and dont know what to do.
-		if (evaluateShock(bidder)) {
-			return 0;
-		} else {
-			int intentBid = (int) Math.round((bidder.opponentData.averageWinningBid() + this.relativeModifier)
-					* this.intensity.getCodeMultiplier());
-
-			return intentBid <= max ? intentBid : max;
-		}
-	}
-	
 	@Override
 	public void reEvaluateStrategy(BaseBidder bidder) {
 
@@ -55,37 +36,6 @@ public class Safe extends Behaviour {
 	}
 
 	/**
-	 * sets straight loss counter back to 0 because the next bid will be a loss.
-	 * 
-	 * @param bidder
-	 * @return
-	 */
-	private boolean evaluateShock(BaseBidder bidder) {
-		if (bidder.data.straightLossCounter > 2) {
-			bidder.data.straightLossCounter = 0;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Max bid should not be over 20% on inicial cash pool while it is over 50%
-	 * after that the max should be 20% of the remainder
-	 * 
-	 * @param bidder
-	 * @return
-	 */
-	private int evaluateMyMaxBid(BaseBidder bidder) {
-		int totalInicial = bidder.data.spentCash + bidder.data.cash;
-		if (bidder.data.spentCash > totalInicial / 2) {
-			return bidder.data.cash / 10;
-		}
-		return (totalInicial / 10) * 2;
-	}
-
-	
-
-	/**
 	 * how good is it? or is it good really? keep the same winning and spending
 	 * less. make no change please. winning but spending more? reevaluate
 	 * 
@@ -98,9 +48,6 @@ public class Safe extends Behaviour {
 
 		if (difSpen < 0) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
-		} else {
-			// winning and spending less? outher bot will try to raise;
-			this.relativeModifier += 2;
 		}
 	}
 
@@ -139,11 +86,7 @@ public class Safe extends Behaviour {
 				&& diferenceCash.equals(DiferenceRelativeToAmountEnum.LARGE)) {
 			System.out.println("MUCH more");
 			lowerIntensity();
-			relativeModifier -= 2;
-		} else {
-			relativeModifier += 2;
 		}
-
 	}
 
 	private void changeIntensityLosingAndSpendingLess(DiferenceRelativeToAmountEnum diferenceQuantity) {
