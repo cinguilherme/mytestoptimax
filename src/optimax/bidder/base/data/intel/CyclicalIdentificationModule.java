@@ -50,7 +50,7 @@ public class CyclicalIdentificationModule {
 			if (turnCounter == 0) {
 				turnCounter = biddingData.getTurn();
 			} else {
-				if (turnCounter + 1 == biddingData.getTurn()) { // bug
+				if (turnCounter + 1 == biddingData.getTurn()) {
 					currentTurnLoss++;
 				} else {
 					turnLossRep.add(currentTurnLoss);
