@@ -3,7 +3,7 @@ package test.optimax.bidder.base.data;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import optimax.bidder.base.BaseData;
+import optimax.bidder.base.data.BaseData;
 
 class BaseDataTest {
 

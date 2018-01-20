@@ -1,6 +1,6 @@
 package optimax.bidder.base.impl;
 
-import optimax.bidder.base.BaseData;
+import optimax.bidder.base.data.BaseData;
 
 public class OpponnetData extends BaseData {
 
