@@ -33,8 +33,6 @@ public class Safe extends Behaviour {
 	@Override
 	protected void reEvaluateStrategy(BaseBidder bidder) {
 
-		System.out.println("reEvaluateStrategy");
-
 		int winning = bidder.diferenceInQuantity();
 		int difSpen = bidder.diferenceInSpense();
 		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();
