@@ -1,7 +1,7 @@
 package optimax.auction;
 
 import optimax.bidder.Bidder;
-import optimax.bidder.base.BaseBidder;
+import optimax.bidder.base.impl.BaseBidder;
 
 public class Auction {
 

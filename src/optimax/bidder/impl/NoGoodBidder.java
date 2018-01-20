@@ -1,7 +1,7 @@
 package optimax.bidder.impl;
 
 import optimax.bidder.Bidder;
-import optimax.bidder.base.BaseBidder;
+import optimax.bidder.base.impl.BaseBidder;
 import optimax.bidder.behaviourcontrol.impl.Dummy;
 
 public class NoGoodBidder extends BaseBidder implements Bidder{

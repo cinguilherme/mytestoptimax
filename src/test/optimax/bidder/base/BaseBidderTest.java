@@ -3,7 +3,7 @@ package test.optimax.bidder.base;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import optimax.bidder.base.BaseBidder;
+import optimax.bidder.base.impl.BaseBidder;
 import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 
 class BaseBidderTest {

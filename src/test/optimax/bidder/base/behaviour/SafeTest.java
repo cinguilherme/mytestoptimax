@@ -6,7 +6,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 import org.junit.jupiter.api.Test;
 
-import optimax.bidder.base.BaseBidder;
+import optimax.bidder.base.impl.BaseBidder;
 import optimax.bidder.behaviourcontrol.enums.BehaviourStrategyEnum;
 import optimax.bidder.behaviourcontrol.impl.Safe;
 

@@ -1,4 +1,4 @@
-package optimax.bidder.base;
+package optimax.bidder.base.impl;
 
 import java.util.ArrayList;
 import java.util.List;

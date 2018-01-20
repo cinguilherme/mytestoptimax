@@ -1,4 +1,6 @@
-package optimax.bidder.base;
+package optimax.bidder.base.impl;
+
+import optimax.bidder.base.BaseData;
 
 public class SelfData extends BaseData{
 
