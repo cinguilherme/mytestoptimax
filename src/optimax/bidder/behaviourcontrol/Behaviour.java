@@ -9,6 +9,10 @@ public abstract class Behaviour {
 	protected BehaviorMultiplierEnum intensity;
 	protected BehaviourStrategyEnum currentStrategy;
 
+	public BehaviourStrategyEnum getCurrentStrategy() {
+		return currentStrategy;
+	}
+
 	public Behaviour(BehaviorMultiplierEnum type) {
 		this.intensity = type;
 	}

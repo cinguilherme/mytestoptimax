@@ -44,10 +44,8 @@ public class Safe extends Behaviour {
 				currentStrategy = BehaviourStrategyEnum.BAIT;
 			}
 		} else {
-			System.out.println("go back to response");
 			currentStrategy = BehaviourStrategyEnum.RESPOND;
 		}
-
 
 		// win or tied
 		if (winning <= 0) {
@@ -59,13 +57,15 @@ public class Safe extends Behaviour {
 
 	/**
 	 * Is my winning bidds goiing up non stop?
+	 * 
 	 * @param bidder
 	 * @return
 	 */
 	private boolean isExpensesScalating(BaseBidder bidder) {
 
 		// it is safe to calculate if the expenses are escalating
-		if (bidder.data.allBids.size() > 10 && bidder.data.isWinningBiddsEscalating()) {
+		if (bidder.data.allBids.size() > 5
+				&& (bidder.data.isWinningBiddsEscalating() || bidder.opponentData.isWinningBiddsEscalating())) {
 			return true;
 		}
 		return false;
