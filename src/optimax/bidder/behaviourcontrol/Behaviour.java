@@ -61,11 +61,8 @@ public abstract class Behaviour {
 			case BAIT:
 				nextBid = this.bait(bidder);
 				break;
-			case SCARE:
-				nextBid = this.scare(bidder);
-				break;
-			case SEEK:
-				nextBid = this.seek(bidder);
+			case RESPOND:
+				nextBid = respond(bidder);
 				break;
 			default:
 				break;
@@ -74,17 +71,32 @@ public abstract class Behaviour {
 		}
 	}
 
-	public abstract void reEvaluateStrategy(BaseBidder bidder);
+	public void reEvaluateStrategy(BaseBidder bidder) {
+		//default does not reavaluate.
+	}
 
-	public abstract int opener(BaseBidder bidder);
+	public int opener(BaseBidder bidder) {
+		return 0;
+	}
 
-	public abstract int respond(BaseBidder bidder);
+	public int respond(BaseBidder bidder) {
+		return bidder.opponentData.lastBid + 1;
+	}
 
-	public abstract int bait(BaseBidder bidder);
+	public int bait(BaseBidder bidder) {
+		if (bidder.opponentData.lastBid > bidder.opponentData.averageWinningBid() * 1.2) {
+			return 0;
+		}
 
-	public abstract int trade(BaseBidder bidder);
+		return Math.round(bidder.opponentData.averageWinningBid() * 1.1F);
+	}
 
-	public abstract int scare(BaseBidder bidder);
+	public int trade(BaseBidder bidder) {
+		if (bidder.diferenceInQuantity() > 2) {
+			return 0;
+		} else {
+			return respond(bidder);
+		}
+	}
 
-	public abstract int seek(BaseBidder bidder);
 }

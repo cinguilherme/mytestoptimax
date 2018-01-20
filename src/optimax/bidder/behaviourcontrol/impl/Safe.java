@@ -9,11 +9,10 @@ import optimax.bidder.behaviourcontrol.enums.DiferenceRelativeToAmountEnum;
 public class Safe extends Behaviour {
 
 	private int relativeModifier = 2;
-	private int lossInRow = 0;
 
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
-		this.currentStrategy = BehaviourStrategyEnum.SEEK;
+		this.currentStrategy = BehaviourStrategyEnum.RESPOND;
 	}
 
 	public Safe(BehaviorMultiplierEnum mult, BehaviourStrategyEnum strategy) {
@@ -21,59 +20,43 @@ public class Safe extends Behaviour {
 		this.currentStrategy = strategy;
 	}
 
-	/**
-	 * This behavior class starts with zero because it focus on trying to outbid de
-	 * opponent after the first bid.
-	 */
-	@Override
-	public int opener(BaseBidder bidder) {
-		return 0;
-	}
-
 	@Override
 	public int respond(BaseBidder bidder) {
-		return 0;
-	}
-
-	@Override
-	public int bait(BaseBidder bidder) {
-		return 0;
-	}
-
-	@Override
-	public int trade(BaseBidder bidder) {
-		return 0;
-	}
-
-	@Override
-	public int scare(BaseBidder bidder) {
-		return 0;
-	}
-
-	/**
-	 * This behavior tries to bid 20% over the last bid of the opponent if winning,
-	 * if lossing try 35% more.
-	 */
-	@Override
-	public int seek(BaseBidder bidder) {
-
 		reEvaluateStrategy(bidder);
-		
+
 		int max = evaluateMyMaxBid(bidder);
 
-		//chaos play, i'm getting readed
+		// chaos play, i'm getting readed and dont know what to do.
 		if (evaluateShock(bidder)) {
 			return 0;
 		} else {
-			int intentBid = (int) Math.round(
-					(bidder.opponentData.averageWinningBid() + this.relativeModifier) * this.intensity.getCodeMultiplier());
+			int intentBid = (int) Math.round((bidder.opponentData.averageWinningBid() + this.relativeModifier)
+					* this.intensity.getCodeMultiplier());
 
 			return intentBid <= max ? intentBid : max;
+		}
+	}
+	
+	@Override
+	public void reEvaluateStrategy(BaseBidder bidder) {
+
+		int winning = bidder.diferenceInQuantity();
+		int difSpen = bidder.diferenceInSpense();
+		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();
+		DiferenceRelativeToAmountEnum diferenceCash = bidder.difInCash();
+
+		System.out.println("reEvaluateStrategy");
+
+		if (winning <= 0) {
+			evaluateWinning(difSpen, diferenceQuantity, diferenceCash);
+		} else {
+			evaluateLosing(difSpen, diferenceQuantity);
 		}
 	}
 
 	/**
 	 * sets straight loss counter back to 0 because the next bid will be a loss.
+	 * 
 	 * @param bidder
 	 * @return
 	 */
@@ -100,22 +83,7 @@ public class Safe extends Behaviour {
 		return (totalInicial / 10) * 2;
 	}
 
-	@Override
-	public void reEvaluateStrategy(BaseBidder bidder) {
-
-		int winning = bidder.diferenceInQuantity();
-		int difSpen = bidder.diferenceInSpense();
-		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();
-		DiferenceRelativeToAmountEnum diferenceCash = bidder.difInCash();
-
-		System.out.println("reEvaluateStrategy");
-
-		if (winning <= 0) {
-			evaluateWinning(difSpen, diferenceQuantity, diferenceCash);
-		} else {
-			evaluateLosing(difSpen, diferenceQuantity);
-		}
-	}
+	
 
 	/**
 	 * how good is it? or is it good really? keep the same winning and spending
