@@ -18,21 +18,59 @@ public class Safe extends Behaviour {
 		this.currentStrategy = strategy;
 	}
 
+	/**
+	 * Adjustment of +1 to the already complex calculations of the base respond.
+	 */
 	@Override
-	public void reEvaluateStrategy(BaseBidder bidder) {
+	public int respond(BaseBidder bidder) {
+		reEvaluateStrategy(bidder);
+		return super.respond(bidder) + 1;
+	}
+
+	/**
+	 * Core method of a Implementation
+	 */
+	@Override
+	protected void reEvaluateStrategy(BaseBidder bidder) {
+
+		System.out.println("reEvaluateStrategy");
 
 		int winning = bidder.diferenceInQuantity();
 		int difSpen = bidder.diferenceInSpense();
 		DiferenceRelativeToAmountEnum diferenceQuantity = bidder.difInQuantity();
 		DiferenceRelativeToAmountEnum diferenceCash = bidder.difInCash();
 
-		System.out.println("reEvaluateStrategy");
+		if (currentStrategy.equals(BehaviourStrategyEnum.RESPOND)) {
+			if (isExpensesScalating(bidder)) {
+				System.out.println("change to bait");
+				currentStrategy = BehaviourStrategyEnum.BAIT;
+			}
+		} else {
+			System.out.println("go back to response");
+			currentStrategy = BehaviourStrategyEnum.RESPOND;
+		}
 
+
+		// win or tied
 		if (winning <= 0) {
 			evaluateWinning(difSpen, diferenceQuantity, diferenceCash);
 		} else {
 			evaluateLosing(difSpen, diferenceQuantity);
 		}
+	}
+
+	/**
+	 * Is my winning bidds goiing up non stop?
+	 * @param bidder
+	 * @return
+	 */
+	private boolean isExpensesScalating(BaseBidder bidder) {
+
+		// it is safe to calculate if the expenses are escalating
+		if (bidder.data.allBids.size() > 10 && bidder.data.isWinningBiddsEscalating()) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -46,8 +84,10 @@ public class Safe extends Behaviour {
 	private void evaluateWinning(int difSpen, DiferenceRelativeToAmountEnum diferenceQuantity,
 			DiferenceRelativeToAmountEnum diferenceCash) {
 
-		if (difSpen < 0) {
+		if (difSpen < 0 && !diferenceQuantity.equals(DiferenceRelativeToAmountEnum.SMALL)) {
 			changeIntensityWinningAndSpendingMore(diferenceQuantity, diferenceCash);
+		} else if (difSpen >= 0 && diferenceQuantity.equals(DiferenceRelativeToAmountEnum.SMALL)) {
+			raizeIntensity();
 		}
 	}
 

@@ -16,6 +16,7 @@ public class SelfData extends BaseData{
 		if(cash >= value) {
 			return true;
 		}
+		System.out.println("out of cash");
 		return false;
 	}
 	

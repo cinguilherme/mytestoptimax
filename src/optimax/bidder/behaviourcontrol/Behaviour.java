@@ -83,7 +83,7 @@ public abstract class Behaviour {
 		}
 	}
 
-	public void reEvaluateStrategy(BaseBidder bidder) {
+	protected void reEvaluateStrategy(BaseBidder bidder) {
 		// default does not reavaluate.
 	}
 
