@@ -55,7 +55,7 @@ public class BaseData {
 	 * @return
 	 */
 	public boolean isWinningBiddsEscalating() {
-		boolean res = isListValueEscalating(winingBids, winEscIndex);
+		boolean res = DataProcessingModule.isListValueEscalating(winingBids, winEscIndex);
 		if (res == true) {
 			winEscIndex = winingBids.size() - 1;
 		}
@@ -68,32 +68,11 @@ public class BaseData {
 	 * @return
 	 */
 	public boolean isAllBidsEscalating() {
-		boolean res = isListValueEscalating(allBids, allEscIndex);
+		boolean res = DataProcessingModule.isListValueEscalating(allBids, allEscIndex);
 		if (res == true) {
 			allEscIndex = allBids.size() - 1;
 		}
 		return res;
-	}
-
-	/**
-	 * Check if values from a start index -> are escalating
-	 * 
-	 * @param list
-	 * @param indexStart
-	 * @return
-	 */
-	private boolean isListValueEscalating(List<Integer> list, Integer indexStart) {
-		boolean result = false;
-		if (list.size() - indexStart >= 5) {
-			for (int i = indexStart; i < list.size() - 1; i++) {
-				if (list.get(i) > list.get(i + 1)) {
-					result = false;
-				}
-			}
-			indexStart = list.size() - 1;
-			result = true;
-		}
-		return result;
 	}
 
 }
