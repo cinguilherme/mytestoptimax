@@ -5,6 +5,7 @@ public class BiddingData {
 	private int turn;
 	private int ownValue;
 	private int otherValue;
+	private int result;
 
 	public int getTurn() {
 		return turn;
@@ -28,6 +29,14 @@ public class BiddingData {
 
 	public void setOtherValue(int otherValue) {
 		this.otherValue = otherValue;
+	}
+
+	public int getResult() {
+		return result;
+	}
+
+	public void setResult(int result) {
+		this.result = result;
 	}
 
 }

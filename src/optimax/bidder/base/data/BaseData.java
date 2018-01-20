@@ -27,6 +27,7 @@ public class BaseData {
 		newBidd.setOtherValue(other);
 		newBidd.setOwnValue(own);
 		newBidd.setTurn(allBids.size());
+		newBidd.setResult(own - other);
 		biddsList.add(newBidd);
 	}
 	

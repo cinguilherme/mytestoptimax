@@ -1,16 +1,17 @@
 package optimax.bidder.base.data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataProcessingModule {
 
 	private DataProcessingModule() {
-		//this class cannot be instanciated
+		// this class cannot be instanciated
 	}
-	
-	
+
 	/**
 	 * Calculate the average value in a list if not empty
+	 * 
 	 * @param bids
 	 * @return
 	 */
@@ -25,7 +26,7 @@ public class DataProcessingModule {
 		}
 		return Math.round(av / bids.size());
 	}
-	
+
 	/**
 	 * Check if values from a start index -> are escalating
 	 * 
@@ -46,5 +47,37 @@ public class DataProcessingModule {
 		}
 		return result;
 	}
-	
+
+	public static boolean isThereALossCycle(List<BiddingData> allBidding) {
+
+		List<BiddingData> allMyLoss = allBidding.stream().filter(biddData -> biddData.getResult() < 0)
+				.collect(Collectors.toList());
+
+		int turnCounter = 0;
+		
+		int currentTurnLoss = 0;
+		
+		int maxTurnLoss = 0;
+		int[] maxTurnLossRep = new int[allMyLoss.size()];
+		int index = 0;
+		
+		for (BiddingData biddingData : allMyLoss) {
+			if (turnCounter == 0) {
+				turnCounter = biddingData.getTurn();
+			} else {
+				if (turnCounter == biddingData.getTurn() + 1) {
+					currentTurnLoss++;
+				} else {
+					maxTurnLossRep[index++] = currentTurnLoss;
+					if (currentTurnLoss > maxTurnLoss) {
+						maxTurnLoss = currentTurnLoss;
+					}
+					currentTurnLoss = 0;
+				}
+			}
+		}
+
+		return false;
+	}
+
 }
