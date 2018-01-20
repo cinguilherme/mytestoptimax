@@ -73,5 +73,32 @@ class BaseBidderTest {
 		
 	}
 	
+	@Test
+	void testDiferenceRelativeToAmount() {
+		bidder.data.cash = 100;
+		bidder.data.spentCash = 30;
+		bidder.opponentData.spentCash = 15;
+		
+		int dif;
+		dif = bidder.diferenceInSpense();
+		System.out.println(dif);
+		
+		System.out.println(bidder.difInCash());
+		
+		bidder.data.spentCash = 500;
+		bidder.opponentData.spentCash = 480;
+		dif = bidder.diferenceInSpense();
+		System.out.println(dif);
+		
+		System.out.println(bidder.difInCash());
+		
+		bidder.data.spentCash = 430;
+		bidder.opponentData.spentCash = 480;
+		dif = bidder.diferenceInSpense();
+		System.out.println(dif);
+		
+		System.out.println(bidder.difInCash());
+	}
+	
 	
 }

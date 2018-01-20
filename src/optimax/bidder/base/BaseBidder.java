@@ -46,21 +46,14 @@ public abstract class BaseBidder {
 	}
 
 	/**
-	 * determine how big is the diference in cash spent? this diference should
-	 * provide support to how wild or safe you can be in terms of agressive bidds.
-	 * 
-	 * rule: cash diference in relation to the remainder cash
-	 * 
-	 * EX: cash = 50; diference = -10 -> dif is 60 how bad is it? 60 is 20% higher
-	 * than 50. It should be SMALL
 	 * 
 	 * @return DiferenceRelativeToAmount SMALL <= 20% > MODERATE <= 35% > or LARGE
 	 */
 	public DiferenceRelativeToAmountEnum difInCash() {
 
-		int evaluation = data.cash - diferenceInSpense();
 		if (data.cash > 0) {
-			int perc = (evaluation / data.cash) * 100;
+			int evaluation = Math.abs(diferenceInSpense());
+			double perc = ((double)evaluation / (double)data.cash) * 100;
 			if (perc <= 20) {
 				return DiferenceRelativeToAmountEnum.SMALL;
 			} else if (perc <= 35) {
@@ -69,7 +62,7 @@ public abstract class BaseBidder {
 				return DiferenceRelativeToAmountEnum.LARGE;
 			}
 		} else {
-			return Math.abs(evaluation) > 20 ? DiferenceRelativeToAmountEnum.LARGE : DiferenceRelativeToAmountEnum.MODERATE;
+			return DiferenceRelativeToAmountEnum.LARGE;
 		}
 	}
 
