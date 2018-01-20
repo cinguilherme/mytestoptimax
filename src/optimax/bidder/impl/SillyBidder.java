@@ -23,9 +23,11 @@ public class SillyBidder extends BaseBidder implements Bidder {
 		return bid;
 	}
 	
+	/**
+	 * pay method for the Silly Bidder will pay as much as he has.
+	 */
 	@Override
 	public int pay(int value) {
-		System.out.println("pay :"+value+" and currently have: "+data.cash);
 		data.numberOfBids++;
 		while(data.canPay(value) == false) {
 			value--;
