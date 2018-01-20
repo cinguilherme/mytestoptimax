@@ -57,6 +57,7 @@ public abstract class Behaviour {
 
 	/**
 	 * Get the next bid value depending on the current strategy.
+	 * 
 	 * @param bidder
 	 * @return
 	 */
@@ -83,11 +84,12 @@ public abstract class Behaviour {
 	}
 
 	public void reEvaluateStrategy(BaseBidder bidder) {
-		//default does not reavaluate.
+		// default does not reavaluate.
 	}
 
 	/**
 	 * First play, basic opener is Zero.
+	 * 
 	 * @param bidder
 	 * @return
 	 */
@@ -96,17 +98,21 @@ public abstract class Behaviour {
 	}
 
 	/**
-	 * Basic response is always the last bid of the opponent + 1.
+	 * Basic response is always the last bid of the opponent + 1, times the
+	 * multiplier of the intensity.
+	 * 
 	 * @param bidder
 	 * @return
 	 */
 	public int respond(BaseBidder bidder) {
-		return bidder.opponentData.lastBid + 1;
+		return (int) Math.round((bidder.opponentData.lastBid + 1) * intensity.getCodeMultiplier());
 	}
 
 	/**
-	 * Basic bait is play zero if the opponent is playing over 20% the average winning bids he did,
-	 *  if not play the average winning bid of the oponnet + 10%
+	 * Basic bait is play zero if the opponent is playing over 20% the average
+	 * winning bids he did, if not play the average winning bid of the oponnet +
+	 * 10%, times the multiplier of the intensity.
+	 * 
 	 * @param bidder
 	 * @return
 	 */
@@ -115,11 +121,13 @@ public abstract class Behaviour {
 			return 0;
 		}
 
-		return Math.round(bidder.opponentData.averageWinningBid() * 1.1F);
+		return (int) Math.round((bidder.opponentData.averageWinningBid() * 1.1F) * intensity.getCodeMultiplier());
 	}
 
 	/**
-	 * Basic trade is to not bid if the diference in quantity is above 10 units. 
+	 * Basic trade is to not bid if the diference in quantity is above 10 units, if
+	 * not.. just respond.
+	 * 
 	 * @param bidder
 	 * @return
 	 */

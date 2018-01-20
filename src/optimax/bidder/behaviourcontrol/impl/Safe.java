@@ -12,7 +12,7 @@ public class Safe extends Behaviour {
 
 	public Safe() {
 		super(BehaviorMultiplierEnum.SHY);
-		this.currentStrategy = BehaviourStrategyEnum.RESPOND;
+		this.currentStrategy = BehaviourStrategyEnum.TRADE;
 	}
 
 	public Safe(BehaviorMultiplierEnum mult, BehaviourStrategyEnum strategy) {
