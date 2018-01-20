@@ -13,12 +13,23 @@ public class BaseData {
 
 	private Integer allEscIndex = 0;
 	private Integer winEscIndex = 0;
+	
+	private List<BiddingData> biddsList;
 
 	public BaseData() {
 		allBids = new ArrayList<Integer>();
 		winingBids = new ArrayList<Integer>();
+		biddsList = new ArrayList<BiddingData>();
 	}
 
+	public void saveBiddData(int own, int other) {
+		BiddingData newBidd = new BiddingData();
+		newBidd.setOtherValue(other);
+		newBidd.setOwnValue(own);
+		newBidd.setTurn(allBids.size());
+		biddsList.add(newBidd);
+	}
+	
 	/**
 	 * The average value of winning bidds
 	 * 

@@ -18,8 +18,6 @@ public abstract class BaseBidder {
 
 	private Behaviour behaviour;
 	private List<ActionResult> actionResults;
-
-	private List<BiddingData> biddsList;
 	
 	public OpponnetData opponentData;
 	public SelfData data;
@@ -28,7 +26,6 @@ public abstract class BaseBidder {
 		opponentData = new OpponnetData();
 		data = new SelfData();
 		actionResults = new ArrayList<ActionResult>();
-		biddsList = new ArrayList<BiddingData>();
 	}
 
 	/**
@@ -131,15 +128,7 @@ public abstract class BaseBidder {
 		opponentData.allBids.add(other);
 		opponentData.spentCash += other;
 
-		saveBiddData(own, other);
-	}
-
-	private void saveBiddData(int own, int other) {
-		BiddingData newBidd = new BiddingData();
-		newBidd.setOtherValue(other);
-		newBidd.setOwnValue(own);
-		newBidd.setTurn(data.allBids.size());
-		biddsList.add(newBidd);
+		data.saveBiddData(own, other);
 	}
 
 	private void declareWinner(int own, int other) {
