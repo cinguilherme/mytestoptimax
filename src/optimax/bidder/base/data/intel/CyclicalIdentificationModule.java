@@ -24,20 +24,22 @@ public class CyclicalIdentificationModule {
 	 * @return true if every loss sequence has the same size.
 	 */
 	public static boolean isLossCycle(List<BiddingData> allBidding) {
-
+		lossInCycle = false;
 		List<Integer> turnLossRep = getListOfSequenceOfStraightLosses(allLostTurns(allBidding));
 
-		final int ruleCounter = turnLossRep.get(0);
-		lossInCycle = true;
+		if(turnLossRep.size() > 0) {
+			final int ruleCounter = turnLossRep.get(0);
+			lossInCycle = true;
 
-		turnLossRep.stream().forEach(i -> {
-			if (i != ruleCounter) {
-				lossInCycle = false;
-			} else if (i == 0) { // this sounds wrong, here I should evaluate if all losses are 1 and
-				lossInCycle = false;
-			}
-		});
-
+			turnLossRep.stream().forEach(i -> {
+				if (i != ruleCounter) {
+					lossInCycle = false;
+				} else if (i == 0) { // this sounds wrong, here I should evaluate if all losses are 1 and
+					lossInCycle = false;
+				}
+			});
+		}
+		
 		return lossInCycle;
 	}
 
