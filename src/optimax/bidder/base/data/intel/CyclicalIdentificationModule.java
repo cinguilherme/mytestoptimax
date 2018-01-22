@@ -70,6 +70,6 @@ public class CyclicalIdentificationModule {
 	 * @return all biddings that I lost
 	 */
 	private static List<BiddingData> allLostTurns(List<BiddingData> allBidding) {
-		return allBidding.stream().filter(biddData -> biddData.getResult() < 0).collect(Collectors.toList());
+		return allBidding.parallelStream().filter(biddData -> biddData.getResult() < 0).collect(Collectors.toList());
 	}
 }
