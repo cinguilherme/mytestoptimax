@@ -8,6 +8,11 @@ import optimax.bidder.base.data.BiddingData;
 
 public class CyclicalIdentificationModule {
 
+	static int turnCounter = 0;
+	static int currentTurnLoss = 1;
+
+	static boolean lossInCycle = false;
+
 	private CyclicalIdentificationModule() {
 
 	}
@@ -23,15 +28,18 @@ public class CyclicalIdentificationModule {
 
 		List<Integer> turnLossRep = getListOfSequenceOfStraightLosses(allMyLoss);
 
-		for (int i = 0; i < turnLossRep.size() - 1; i++) {
-			if (turnLossRep.get(i) != turnLossRep.get(i + 1)) {
-				return false;
-			} else if (turnLossRep.get(i) == 0) { //this sounds wrong, here I should evaluate if all losses are 1 and if so determine how spread apart they are.
-				return false;
-			}
-		}
+		final int ruleCounter = turnLossRep.get(0);
+		lossInCycle = true;
 
-		return true;
+		turnLossRep.stream().forEach(i -> {
+			if (i != ruleCounter) {
+				lossInCycle = false;
+			} else if (i == 0) { // this sounds wrong, here I should evaluate if all losses are 1 and
+				lossInCycle = false;
+			}
+		});
+
+		return lossInCycle;
 	}
 
 	/**
@@ -43,22 +51,22 @@ public class CyclicalIdentificationModule {
 	private static List<Integer> getListOfSequenceOfStraightLosses(List<BiddingData> allMyLoss) {
 
 		List<Integer> turnLossRep = new ArrayList<Integer>();
-		int turnCounter = 0;
-		int currentTurnLoss = 1;
-
-		for (BiddingData biddingData : allMyLoss) {
+		turnCounter = 0;
+		currentTurnLoss = 1;
+		allMyLoss.stream().forEach(loss -> {
 			if (turnCounter == 0) {
-				turnCounter = biddingData.getTurn();
+				turnCounter = loss.getTurn();
 			} else {
-				if (turnCounter + 1 == biddingData.getTurn()) {
+				if (turnCounter + 1 == loss.getTurn()) {
 					currentTurnLoss++;
 				} else {
 					turnLossRep.add(currentTurnLoss);
 					currentTurnLoss = 1;
-					turnCounter = biddingData.getTurn();
+					turnCounter = loss.getTurn();
 				}
 			}
-		}
+		});
+
 		return turnLossRep;
 	}
 
