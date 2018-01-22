@@ -3,6 +3,7 @@ package optimax.bidder.base.data.intel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import optimax.bidder.base.data.BiddingData;
 
@@ -24,9 +25,7 @@ public class CyclicalIdentificationModule {
 	 */
 	public static boolean isLossCycle(List<BiddingData> allBidding) {
 
-		List<BiddingData> allMyLoss = allLostTurns(allBidding);
-
-		List<Integer> turnLossRep = getListOfSequenceOfStraightLosses(allMyLoss);
+		List<Integer> turnLossRep = getListOfSequenceOfStraightLosses(allLostTurns(allBidding));
 
 		final int ruleCounter = turnLossRep.get(0);
 		lossInCycle = true;
@@ -48,12 +47,12 @@ public class CyclicalIdentificationModule {
 	 * @param allMyLoss
 	 * @return list of ints that represent how many turns were lost in a row
 	 */
-	private static List<Integer> getListOfSequenceOfStraightLosses(List<BiddingData> allMyLoss) {
+	private static List<Integer> getListOfSequenceOfStraightLosses(Stream<BiddingData> allMyLoss) {
 
 		List<Integer> turnLossRep = new ArrayList<Integer>();
 		turnCounter = 0;
 		currentTurnLoss = 1;
-		allMyLoss.stream().forEach(loss -> {
+		allMyLoss.forEach(loss -> {
 			if (turnCounter == 0) {
 				turnCounter = loss.getTurn();
 			} else {
@@ -77,7 +76,7 @@ public class CyclicalIdentificationModule {
 	 * @param allBidding
 	 * @return all biddings that I lost
 	 */
-	private static List<BiddingData> allLostTurns(List<BiddingData> allBidding) {
-		return allBidding.parallelStream().filter(biddData -> biddData.getResult() < 0).collect(Collectors.toList());
+	private static Stream<BiddingData> allLostTurns(List<BiddingData> allBidding) {
+		return allBidding.parallelStream().filter(biddData -> biddData.getResult() < 0);
 	}
 }
