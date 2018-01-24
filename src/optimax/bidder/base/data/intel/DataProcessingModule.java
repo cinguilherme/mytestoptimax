@@ -20,12 +20,7 @@ public class DataProcessingModule {
 		if (bids.size() < 1) {
 			return 0;
 		}
-
-		int av = 0;
-		for (Integer bid : bids) {
-			av += bid;
-		}
-		return Math.round(av / bids.size());
+		return (int) bids.stream().mapToInt(i -> i).average().getAsDouble();
 	}
 
 	/**
