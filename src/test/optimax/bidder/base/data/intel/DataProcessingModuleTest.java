@@ -1,8 +1,7 @@
 package test.optimax.bidder.base.data.intel;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
