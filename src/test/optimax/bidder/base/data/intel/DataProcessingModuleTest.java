@@ -12,15 +12,22 @@ import optimax.bidder.base.data.intel.DataProcessingModule;
 class DataProcessingModuleTest {
 
 	List<Integer> bids;
-	
+
 	public DataProcessingModuleTest() {
-		bids = Arrays.asList(1,2,3,4,5,6);
+		bids = Arrays.asList(1, 2, 3, 4, 5, 6);
 	}
-	
+
 	@Test
 	void testAverage() {
 		Integer average = DataProcessingModule.average(bids);
 		assertTrue(average.equals(3));
+	}
+
+	@Test
+	void testEmpty() {
+		bids = Arrays.asList();
+		Integer average = DataProcessingModule.average(bids);
+		assertTrue(average.equals(0));
 	}
 
 }

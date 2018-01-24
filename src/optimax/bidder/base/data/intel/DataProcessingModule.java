@@ -1,6 +1,7 @@
 package optimax.bidder.base.data.intel;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 import optimax.bidder.base.data.BiddingData;
 
@@ -17,10 +18,12 @@ public class DataProcessingModule {
 	 * @return
 	 */
 	public static Integer average(List<Integer> bids) {
-		if (bids.size() < 1) {
+		OptionalDouble average = bids.stream().mapToInt(i -> i).average();
+		if(average.isPresent()) {
+			return (int) average.getAsDouble();
+		} else {
 			return 0;
 		}
-		return (int) bids.stream().mapToInt(i -> i).average().getAsDouble();
 	}
 
 	/**
